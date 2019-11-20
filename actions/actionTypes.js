@@ -1,0 +1,9 @@
+export const ADD_VIDEO = 'ADD_VIDEO';
+export const FETCH_VIDEO = 'FETCH_VIDEO';
+export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
+export const FETCH_FAILED = 'FETCH_FAILED';
+
+export const UPDATE_VIDEO = 'UPDATE_VIDEO';
+export const UPDATE_SUCCEEDED = 'UPDATE_SUCCEEDED';
+export const DELETE_VIDEO = 'DELETE_VIDEO';
+export const DELETE_SUCCEEDED = 'DELETE_SUCCEEDED';
