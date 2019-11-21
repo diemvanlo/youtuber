@@ -1,7 +1,21 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, ImageBackground, FlatList, Image, SafeAreaView } from 'react-native';
+import React, {Component} from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    Dimensions,
+    ImageBackground,
+    FlatList,
+    Image,
+    SafeAreaView,
+    ActivityIndicator,
+    TouchableOpacity,
+    Button, ListView
+} from 'react-native';
 import ViewOverflow from 'react-native-view-overflow';
-const { width, height } = Dimensions.get('screen');
+
+const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -28,7 +42,7 @@ const styles = StyleSheet.create({
     },
     destination: {
         width: width - (36 * 2),
-        height: width ,
+        height: width,
         borderRadius: 12,
         paddingHorizontal: 36,
         marginHorizontal: 36,
@@ -179,12 +193,24 @@ const mocks = [
         ]
     },
 ]
+
 class Articles extends Component {
     constructor(props) {
         super(props);
         this.props.onFetchVideos();
-        console.log(this.props.videos);
+        this.state = {
+
+            //     videos: this.props.videos,
+            //     currentPage: 1,
+            //     todosPerPage: 3
+        };
+        const pageVideo = this.props.videos.slice(1, 10);
+        this.state = {
+            pageVideo: pageVideo,
+        }
+        // console.log(this.props.videos);
     }
+
 
     static navigationOptions = {
         header: (
@@ -193,33 +219,35 @@ class Articles extends Component {
                     <Text>
                         Search for something
                     </Text>
-                    <Text style={{ fontSize: 24 }}>
+                    <Text style={{fontSize: 24}}>
                         Feeds
                     </Text>
                 </View>
                 <View>
                     <Image style={styles.avatar}
-                           source={{ uri: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg' }}
+                           source={{uri: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg'}}
                     />
                 </View>
             </View>
         ),
     };
+
     renderDots() {
-        const { destinations } = this.props;
+        const {destinations} = this.props;
         return (
-            <View style={[styles.flex, styles.row, { justifyContent: 'center', alignItems: 'center', marginTop: 10 }]} >
+            <View style={[styles.flex, styles.row, {justifyContent: 'center', alignItems: 'center', marginTop: 10}]}>
                 {destinations.map(item => {
                     return <View
                         key={`step-${item.id}`}
-                        style={[styles.dots, item.id === 1 ? styles.activeDot : null]} />
+                        style={[styles.dots, item.id === 1 ? styles.activeDot : null]}/>
                 })}
             </View>
         )
     };
+
     renderDestinations = () => {
         return (
-            <View style={[styles.column, styles.destinations, styles.shadow, { elevation: 2 }]}>
+            <View style={[styles.column, styles.destinations, styles.shadow, {elevation: 2}]}>
                 <FlatList horizontal
                           pagingEnabled
                           scrollEnabled
@@ -227,50 +255,79 @@ class Articles extends Component {
                           decelerationRate={0}
                           scrollEventThrottle={16}
                           snapToAlignment="center"
+                    // ListEmptyComponent={this.emptyList}
+                    // ListHeaderComponent={this.headerList}
+                          ListFooterComponent={this.footerList}
+                          onEndReached={this.handleLoadMore}
+                          onEndReachedThreshold={0}
                           data={this.props.videos}
-                          style={{ overflow: 'visible', height: 360 }}
+                          style={{overflow: 'visible', height: 360}}
                           keyExtractor={(item, index) => `${item.id}`}
-                          renderItem={({ item }) => (
-                              <ViewOverflow style={[styles.shadow, { height: 400, overflow: 'visible' }]}>
+                          renderItem={({item}) => (
+                              <ViewOverflow style={[styles.shadow, {height: 400, overflow: 'visible'}]}>
                                   {this.renderDestination(item)}
                               </ViewOverflow>
                           )}
                 />
-
                 {this.renderDots()}
+
+                {/*<Text>ok</Text>*/}
+                {/*{renderTodos}*/}
             </View>
         );
     }
-    renderDestination = (item) => {
-        console.log(item.id);
+    handleLoadMore = () => {
+        this.state.pageVideo = this.props.videos.slice(1, 20)
+    }
+
+    emptyList = () => {
+
+    }
+    headerList = () => {
+
+    }
+    footerList = () => {
         return (
-            <View style={[styles.destination, styles.column, { marginLeft: -33, width: width * 1 }]}>
+            <View>
+                {/*<TouchableOpacity activeOpacity={0.9} onPress={}>*/}
+                {/*    <Button title={"loadmore"}></Button>*/}
+                {/*    /!*{this.state.isLoadMore ? (*!/*/}
+                {/*    /!*    <ActivityIndicator color='green' animating size="large"></ActivityIndicator>) : null}*!/*/}
+                {/*</TouchableOpacity>*/}
+            </View>
+        )
+    }
+
+    renderDestination = (item) => {
+        // console.log(item.id);
+        return (
+            <View style={[styles.destination, styles.column, {marginLeft: -33, width: width * 1}]}>
                 <ImageBackground
                     style={[styles.flex, styles.destination, styles.shadow]}
-                    imageStyle={{ borderRadius: 12 }}
-                    source={{ uri: item.preview }}
+                    imageStyle={{borderRadius: 12}}
+                    source={{uri: item.preview}}
                 >
-                    <View style={[styles.row, { justifyContent: 'space-between' }]}>
-                        <View style={{ flex: 0 }}>
+                    <View style={[styles.row, {justifyContent: 'space-between'}]}>
+                        <View style={{flex: 0}}>
                             {/*<Image source={{ uri: item.user.avatar }} style={styles.avatar} />*/}
                         </View>
-                        <View style={[styles.column, { flex: 2 }]}>
-                            <Text style={{ fontWeight: 'bold', color: 'white' }}>{item.title}</Text>
-                            <Text style={{ color: 'white' }}>
+                        <View style={[styles.column, {flex: 2}]}>
+                            <Text style={{fontWeight: 'bold', color: 'white'}}>{item.title}</Text>
+                            <Text style={{color: 'white'}}>
                                 <Text> {item.location}</Text>
                             </Text>
                         </View>
-                        <View style={{ flex: 0, justifyContent: 'center', alignItems: 'flex-end', }}>
+                        <View style={{flex: 0, justifyContent: 'center', alignItems: 'flex-end',}}>
                             <Text style={styles.rating}>{item.rating}</Text>
                         </View>
                     </View>
                 </ImageBackground>
                 <View style={[styles.column, styles.destinationInfo, styles.shadow]}>
-                    <Text style={{ fontSize: 14, fontWeight: '500', paddingBottom: 8, }}>
+                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8,}}>
                         {item.title}
                     </Text>
-                    <View style={[ styles.row, { justifyContent: 'space-between', alignItems: 'flex-end', }]}>
-                        <Text style={{ color: 'black' }}>
+                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end',}]}>
+                        <Text style={{color: 'black'}}>
                             {item.title.split('').slice(0, 50)}...
                         </Text>
                     </View>
@@ -281,15 +338,15 @@ class Articles extends Component {
     renderRecommemded = () => {
         return (
             <View style={[styles.flex, styles.column, styles.recommemded]}>
-                <View style={[styles.row, { justifyContent: 'space-between', alignItems: 'baseline' }]}>
-                    <Text style={{ fontSize: 18 }}>
+                <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'baseline'}]}>
+                    <Text style={{fontSize: 18}}>
                         Recommemeded
                     </Text>
-                    <Text style={{ color: '#BCCCD4' }}>
+                    <Text style={{color: '#BCCCD4'}}>
                         More
                     </Text>
                 </View>
-                <View style={[styles.column, styles.destinations, styles.shadow, { elevation: 2 }]}>
+                <View style={[styles.column, styles.destinations, styles.shadow, {elevation: 2}]}>
                     <FlatList horizontal
                               pagingEnabled
                               scrollEnabled
@@ -298,10 +355,10 @@ class Articles extends Component {
                               scrollEventThrottle={16}
                               snapToAlignment="center"
                               data={this.props.destinations}
-                              style={{ overflow: 'visible', height: 260 }}
+                              style={{overflow: 'visible', height: 260}}
                               keyExtractor={(item, index) => `${item.id}`}
-                              renderItem={({ item }) => (
-                                  <ViewOverflow style={[styles.shadow, { height: 200, overflow: 'visible' }]}>
+                              renderItem={({item}) => (
+                                  <ViewOverflow style={[styles.shadow, {height: 200, overflow: 'visible'}]}>
                                       {this.renderRecommendation(item)}
                                   </ViewOverflow>
                               )}
@@ -314,8 +371,8 @@ class Articles extends Component {
     renderRecommendation = item => {
         return (
             <View style={[styles.column, styles.recommendation,]}>
-                <ImageBackground style={styles.flex} imageStyle={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
-                                 source={{ uri: item.preview }} >
+                <ImageBackground style={styles.flex} imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
+                                 source={{uri: item.preview}}>
                     <View>
                         <Text>{item.temperature}</Text>
                     </View>
@@ -324,11 +381,18 @@ class Articles extends Component {
 
         )
     }
+
     render() {
         return (
             <ScrollView showsVerticalScrollIndicator={false}>
                 {this.renderDestinations()}
                 {this.renderRecommemded()}
+                <ListView dataSource={this.props.videos} renderRow={(rowData) => {
+                    <View>
+                        <Text>Hello</Text>
+                    </View>
+                }}>
+                </ListView>
             </ScrollView>
         )
     };
