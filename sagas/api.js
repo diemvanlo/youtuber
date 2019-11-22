@@ -1,8 +1,9 @@
-const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/get/all';
+const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=48';
 // const getVideosUrl = 'http://5db9b400eddc81001495f0df.mockapi.io/api/videos';
 const postVideosUrl = 'http://192.168.1.10:8080/video/save';
 const updateVideosUrl = 'http://192.168.1.10:8080/video/update';
 const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete'
+
 function* getVideosFromApi() {
 
     const json = yield fetch(getVideosUrl, {
@@ -16,8 +17,8 @@ function* getVideosFromApi() {
     // console.log("fgg");
     // console.log(json);
 
-    const videos = yield (json);
-
+    const videos = yield (json.content);
+    // console.log(json.content);
     return videos;
 }
 

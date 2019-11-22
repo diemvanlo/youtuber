@@ -55,16 +55,34 @@ const styles = StyleSheet.create({
         paddingBottom: 30,
     },
     destinationInfo: {
-        position: 'absolute',
+        // position: 'absolute',
         borderRadius: 12,
         paddingVertical: 18,
         paddingHorizontal: 36,
-        bottom: -10,
+        // bottom: 30,
+        // top: 160,
         right: 36,
         left: 10,
         backgroundColor: 'white',
         justifyContent: 'space-evenly',
         overflow: 'visible'
+    },
+    recommemdedInfo: {
+        // position: 'absolute',
+        borderRadius: 12,
+        paddingHorizontal: 6,
+        // bottom: 30,
+        // top: 160,
+        right: 36,
+        left: 10,
+        backgroundColor: 'white',
+        justifyContent: 'space-evenly',
+        overflow: 'visible'
+    },
+
+    recommemdations: {
+        flex: 2,
+        justifyContent: 'space-between',
     },
     recommemded: {
         padding: 36
@@ -103,11 +121,11 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
     recommendation: {
-        width: (width - (36 * 2)) / 2,
-        height: 200,
+        width: (width - (36 * 2)),
+        height: 500,
         borderRadius: 12,
+        overflow: 'visible',
         // paddingHorizontal: 36,
-        marginHorizontal: 36,
         // paddingVertical: 24,
     }
 
@@ -248,6 +266,12 @@ class Articles extends Component {
     renderDestinations = () => {
         return (
             <View style={[styles.column, styles.destinations, styles.shadow, {elevation: 2}]}>
+                <FlatList data={this.props.videos} renderItem={(rowData) => {
+                    <View>
+                        <Text>Hello</Text>
+                    </View>
+                }}>
+                </FlatList>
                 <FlatList horizontal
                           pagingEnabled
                           scrollEnabled
@@ -305,7 +329,7 @@ class Articles extends Component {
                 <ImageBackground
                     style={[styles.flex, styles.destination, styles.shadow]}
                     imageStyle={{borderRadius: 12}}
-                    source={{uri: item.preview}}
+                    source={{uri: item.thumb}}
                 >
                     <View style={[styles.row, {justifyContent: 'space-between'}]}>
                         <View style={{flex: 0}}>
@@ -346,21 +370,20 @@ class Articles extends Component {
                         More
                     </Text>
                 </View>
-                <View style={[styles.column, styles.destinations, styles.shadow, {elevation: 2}]}>
-                    <FlatList horizontal
+                <View style={[styles.column, styles.recommemdations, styles.shadow, {elevation: 2}]}>
+                    <FlatList
                               pagingEnabled
                               scrollEnabled
-                              showsHorizontalScrollIndicator={false}
                               decelerationRate={0}
                               scrollEventThrottle={16}
                               snapToAlignment="center"
-                              data={this.props.destinations}
-                              style={{overflow: 'visible', height: 260}}
+                              data={this.props.videos}
+                              style={{overflow: 'visible'}}
                               keyExtractor={(item, index) => `${item.id}`}
                               renderItem={({item}) => (
-                                  <ViewOverflow style={[styles.shadow, {height: 200, overflow: 'visible'}]}>
+                                  <View>
                                       {this.renderRecommendation(item)}
-                                  </ViewOverflow>
+                                  </View>
                               )}
                     />
                     {this.renderDots()}
@@ -371,12 +394,19 @@ class Articles extends Component {
     renderRecommendation = item => {
         return (
             <View style={[styles.column, styles.recommendation,]}>
-                <ImageBackground style={styles.flex} imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
-                                 source={{uri: item.preview}}>
-                    <View>
-                        <Text>{item.temperature}</Text>
+                <Image style={[styles.flex,{height: 400}]} imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
+                                 source={{uri: item.thumb}}>
+                </Image>
+                <View style={[styles.flex,styles.column, styles.recommemdedInfo, styles.shadow]}>
+                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8,}}>
+                        {item.title}
+                    </Text>
+                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end',}]}>
+                        <Text style={{color: 'black'}}>
+                            {item.title.split('').slice(0, 50)}...
+                        </Text>
                     </View>
-                </ImageBackground>
+                </View>
             </View>
 
         )
@@ -384,15 +414,10 @@ class Articles extends Component {
 
     render() {
         return (
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
                 {this.renderDestinations()}
                 {this.renderRecommemded()}
-                <ListView dataSource={this.props.videos} renderRow={(rowData) => {
-                    <View>
-                        <Text>Hello</Text>
-                    </View>
-                }}>
-                </ListView>
+
             </ScrollView>
         )
     };
