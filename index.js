@@ -1,25 +1,28 @@
 /**
  * @format
  */
-
-import { AppRegistry } from 'react-native';
-import React, { Component } from 'react';
-import { name as appName } from './app.json';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import {AppRegistry} from 'react-native';
+import React, {Component} from 'react';
+import {name as appName} from './app.json';
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import allReducers from './reducers';
 import VideoContainer from './containers/videoContainer';
+import Video from './navigation/Video'
+import { persistStore, persistCombineReducers } from 'redux-persist';
 import rootSaga from './sagas/rootSagas';
-
+import App from './App'
+import Navigation from './containers/Navigation'
 const sagaMiddleWare = createSagaMiddleware();
 let store = createStore(allReducers, applyMiddleware(sagaMiddleWare));
-const App = () => {
+const Appp = () => {
     return (
         <Provider store={store}>
-            <VideoContainer />
+            <App/>
         </Provider>
     )
 }
+
 sagaMiddleWare.run(rootSaga);
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => Appp);

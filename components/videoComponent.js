@@ -212,8 +212,10 @@ const mocks = [
     },
 ]
 
-class Articles extends Component {
+class VideoComponent extends Component {
+
     constructor(props) {
+        console.log("gg");
         super(props);
         this.props.onFetchVideos();
         this.state = {
@@ -228,7 +230,6 @@ class Articles extends Component {
         }
         // console.log(this.props.videos);
     }
-
 
     static navigationOptions = {
         header: (
@@ -372,19 +373,19 @@ class Articles extends Component {
                 </View>
                 <View style={[styles.column, styles.recommemdations, styles.shadow, {elevation: 2}]}>
                     <FlatList
-                              pagingEnabled
-                              scrollEnabled
-                              decelerationRate={0}
-                              scrollEventThrottle={16}
-                              snapToAlignment="center"
-                              data={this.props.videos}
-                              style={{overflow: 'visible'}}
-                              keyExtractor={(item, index) => `${item.id}`}
-                              renderItem={({item}) => (
-                                  <View>
-                                      {this.renderRecommendation(item)}
-                                  </View>
-                              )}
+                        pagingEnabled
+                        scrollEnabled
+                        decelerationRate={0}
+                        scrollEventThrottle={16}
+                        snapToAlignment="center"
+                        data={this.props.videos}
+                        style={{overflow: 'visible'}}
+                        keyExtractor={(item, index) => `${item.id}`}
+                        renderItem={({item}) => (
+                            <View>
+                                {this.renderRecommendation(item)}
+                            </View>
+                        )}
                     />
                     {this.renderDots()}
                 </View>
@@ -392,12 +393,14 @@ class Articles extends Component {
         );
     }
     renderRecommendation = item => {
+        const {navigation} = this.props;
         return (
-            <View style={[styles.column, styles.recommendation,]}>
-                <Image style={[styles.flex,{height: 400}]} imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
+            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Article', {article: item})}>
+                <ImageBackground style={[styles.flex, {height: 400}]}
+                                 imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
                                  source={{uri: item.thumb}}>
-                </Image>
-                <View style={[styles.flex,styles.column, styles.recommemdedInfo, styles.shadow]}>
+                </ImageBackground>
+                <View style={[styles.flex, styles.column, styles.recommemdedInfo, styles.shadow]}>
                     <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8,}}>
                         {item.title}
                     </Text>
@@ -407,7 +410,7 @@ class Articles extends Component {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
 
         )
     }
@@ -422,7 +425,7 @@ class Articles extends Component {
         )
     };
 };
-Articles.defaultProps = {
+VideoComponent.defaultProps = {
     destinations: mocks
 };
-export default Articles;
+export default VideoComponent;

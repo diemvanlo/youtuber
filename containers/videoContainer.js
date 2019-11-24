@@ -1,6 +1,16 @@
-import { connect } from 'react-redux';
-import VideoComponent from '../components/videoComponent';
-import { addVideosAction, fetchVideosAction, fetchSucceededAction, fetchFailedAction, updateItemAction, updateItemSuccessAction, deleteItemAction } from '../actions';
+import {connect, Provider} from 'react-redux';
+import videoComponent from '../components/videoComponent';
+import {
+    addVideosAction,
+    fetchVideosAction,
+    fetchSucceededAction,
+    fetchFailedAction,
+    updateItemAction,
+    updateItemSuccessAction,
+    deleteItemAction
+} from '../actions';
+import React, {Component} from 'react';
+import {createStackNavigator} from "react-navigation-stack";
 
 const mapStateToProps = (state) => {
     // console.log(`Tai container parse :${JSON.stringify(state)}`);
@@ -9,6 +19,15 @@ const mapStateToProps = (state) => {
     }
 }
 
+export const Navigator = new createStackNavigator(
+    {
+        videoComponent: {
+            screen: videoComponent
+        },
+    }, {
+        initialRouteName: 'videoComponent',
+    }
+)
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetchVideos: () => {
@@ -29,7 +48,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deleteItemAction(deleteVideoID));
         }
     };
-}
+};
 
-const VideoContainer = connect(mapStateToProps, mapDispatchToProps)(VideoComponent);
-export default VideoContainer;
+
+const videoContainer = connect(mapStateToProps, mapDispatchToProps)(videoComponent);
+export default videoContainer;
+
+
