@@ -8,11 +8,8 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import allReducers from './reducers';
-import VideoContainer from './containers/videoContainer';
-import Video from './navigation/Video';
 import rootSaga from './sagas/rootSagas';
 import App from './App';
-import Navigation from './containers/Navigation';
 import 'react-native-gesture-handler'
 
 const sagaMiddleWare = createSagaMiddleware();

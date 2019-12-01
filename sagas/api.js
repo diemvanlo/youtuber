@@ -1,4 +1,4 @@
-const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=48';
+const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=47';
 // const getVideosUrl = 'http://5db9b400eddc81001495f0df.mockapi.io/api/videos';
 const postVideosUrl = 'http://192.168.1.10:8080/video/save';
 const updateVideosUrl = 'http://192.168.1.10:8080/video/update';

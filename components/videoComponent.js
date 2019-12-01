@@ -11,23 +11,36 @@ import {
     SafeAreaView,
     ActivityIndicator,
     TouchableOpacity,
-    Button, ListView
+    Button, ListView,
 } from 'react-native';
 import ViewOverflow from 'react-native-view-overflow';
 
 const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
+    flatList_items:
+        {
+            fontSize: 20,
+            color: '#000',
+            padding: 10,
+        },
+    MainContainer:
+        {
+            flex: 1,
+            justifyContent: 'center',
+            margin: 5,
+            paddingTop: (Platform.OS === 'ios') ? 20 : 0,
+        },
     container: {
         flex: 1,
     },
     flex: {
-        flex: 1
+        flex: 1,
     },
     column: {
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     row: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     header: {
         backgroundColor: 'transparent',
@@ -35,10 +48,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 36,
         paddingBottom: 24,
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     articles: {
-        overflow: 'visible'
+        overflow: 'visible',
     },
     destination: {
         width: width - (36 * 2),
@@ -47,7 +60,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 36,
         marginHorizontal: 36,
         paddingVertical: 24,
-        overflow: 'visible'
+        overflow: 'visible',
     },
     destinations: {
         flex: 2,
@@ -65,7 +78,7 @@ const styles = StyleSheet.create({
         left: 10,
         backgroundColor: 'white',
         justifyContent: 'space-evenly',
-        overflow: 'visible'
+        overflow: 'visible',
     },
     recommemdedInfo: {
         // position: 'absolute',
@@ -77,7 +90,7 @@ const styles = StyleSheet.create({
         left: 10,
         backgroundColor: 'white',
         justifyContent: 'space-evenly',
-        overflow: 'visible'
+        overflow: 'visible',
     },
 
     recommemdations: {
@@ -85,11 +98,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     recommemded: {
-        padding: 36
+        padding: 36,
     },
     avatar:
         {
-            width: 36, height: 36, borderRadius: 18
+            width: 36, height: 36, borderRadius: 18,
         },
     rating: {
         fontSize: 18,
@@ -117,8 +130,8 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
     },
     activeDot: {
-        borderColor: "#007BFA",
-        borderWidth: 2
+        borderColor: '#007BFA',
+        borderWidth: 2,
     },
     recommendation: {
         width: (width - (36 * 2)),
@@ -127,7 +140,7 @@ const styles = StyleSheet.create({
         overflow: 'visible',
         // paddingHorizontal: 36,
         // paddingVertical: 24,
-    }
+    },
 
 });
 const mocks = [
@@ -150,7 +163,7 @@ const mocks = [
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        ]
+        ],
     },
     {
         id: 2,
@@ -169,7 +182,7 @@ const mocks = [
         images: [
             'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1446903572544-8888a0e60687?auto=format&fit=crop&w=800&q=80',
-        ]
+        ],
     },
     {
         id: 3,
@@ -190,7 +203,7 @@ const mocks = [
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        ]
+        ],
     },
     {
         id: 4,
@@ -208,32 +221,31 @@ const mocks = [
         images: [
             'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1446903572544-8888a0e60687?auto=format&fit=crop&w=800&q=80',
-        ]
+        ],
     },
-]
+];
 
 class VideoComponent extends Component {
 
     constructor(props) {
-        console.log("gg");
         super(props);
         this.props.onFetchVideos();
-        this.state = {
-
-            //     videos: this.props.videos,
-            //     currentPage: 1,
-            //     todosPerPage: 3
-        };
+        // console.log(this.props.videos);
         const pageVideo = this.props.videos.slice(1, 10);
         this.state = {
+            isLoading: true,
+            videos: this.props.videos.reverse(),
             pageVideo: pageVideo,
-        }
-        // console.log(this.props.videos);
+            page_size: 3,
+            page_number: 1,
+            listVideo: [],
+        };
+        // console.log(this.state.videos);
     }
 
     static navigationOptions = {
         header: (
-            <View style={[styles.row, styles.header,]}>
+            <View style={[styles.row, styles.header]}>
                 <View>
                     <Text>
                         Search for something
@@ -258,10 +270,10 @@ class VideoComponent extends Component {
                 {destinations.map(item => {
                     return <View
                         key={`step-${item.id}`}
-                        style={[styles.dots, item.id === 1 ? styles.activeDot : null]}/>
+                        style={[styles.dots, item.id === 1 ? styles.activeDot : null]}/>;
                 })}
             </View>
-        )
+        );
     };
 
     renderDestinations = () => {
@@ -270,7 +282,7 @@ class VideoComponent extends Component {
                 <FlatList data={this.props.videos} renderItem={(rowData) => {
                     <View>
                         <Text>Hello</Text>
-                    </View>
+                    </View>;
                 }}>
                 </FlatList>
                 <FlatList horizontal
@@ -283,8 +295,6 @@ class VideoComponent extends Component {
                     // ListEmptyComponent={this.emptyList}
                     // ListHeaderComponent={this.headerList}
                           ListFooterComponent={this.footerList}
-                          onEndReached={this.handleLoadMore}
-                          onEndReachedThreshold={0}
                           data={this.props.videos}
                           style={{overflow: 'visible', height: 360}}
                           keyExtractor={(item, index) => `${item.id}`}
@@ -300,31 +310,22 @@ class VideoComponent extends Component {
                 {/*{renderTodos}*/}
             </View>
         );
-    }
-    handleLoadMore = () => {
-        this.state.pageVideo = this.props.videos.slice(1, 20)
-    }
+    };
 
     emptyList = () => {
 
-    }
+    };
     headerList = () => {
 
-    }
+    };
     footerList = () => {
         return (
             <View>
-                {/*<TouchableOpacity activeOpacity={0.9} onPress={}>*/}
-                {/*    <Button title={"loadmore"}></Button>*/}
-                {/*    /!*{this.state.isLoadMore ? (*!/*/}
-                {/*    /!*    <ActivityIndicator color='green' animating size="large"></ActivityIndicator>) : null}*!/*/}
-                {/*</TouchableOpacity>*/}
             </View>
-        )
-    }
+        );
+    };
 
     renderDestination = (item) => {
-        // console.log(item.id);
         return (
             <View style={[styles.destination, styles.column, {marginLeft: -33, width: width * 1}]}>
                 <ImageBackground
@@ -342,24 +343,36 @@ class VideoComponent extends Component {
                                 <Text> {item.location}</Text>
                             </Text>
                         </View>
-                        <View style={{flex: 0, justifyContent: 'center', alignItems: 'flex-end',}}>
+                        <View style={{flex: 0, justifyContent: 'center', alignItems: 'flex-end'}}>
                             <Text style={styles.rating}>{item.rating}</Text>
                         </View>
                     </View>
                 </ImageBackground>
                 <View style={[styles.column, styles.destinationInfo, styles.shadow]}>
-                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8,}}>
+                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8}}>
                         {item.title}
                     </Text>
-                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end',}]}>
+                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end'}]}>
                         <Text style={{color: 'black'}}>
                             {item.title.split('').slice(0, 50)}...
                         </Text>
                     </View>
                 </View>
             </View>
-        )
-    }
+        );
+    };
+
+    FlatListItemSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: '100%',
+                    backgroundColor: '#607D8B',
+                }}
+            />
+        );
+    };
     renderRecommemded = () => {
         return (
             <View style={[styles.flex, styles.column, styles.recommemded]}>
@@ -371,27 +384,31 @@ class VideoComponent extends Component {
                         More
                     </Text>
                 </View>
+
                 <View style={[styles.column, styles.recommemdations, styles.shadow, {elevation: 2}]}>
-                    <FlatList
-                        pagingEnabled
-                        scrollEnabled
-                        decelerationRate={0}
-                        scrollEventThrottle={16}
-                        snapToAlignment="center"
-                        data={this.props.videos}
-                        style={{overflow: 'visible'}}
-                        keyExtractor={(item, index) => `${item.id}`}
-                        renderItem={({item}) => (
-                            <View>
-                                {this.renderRecommendation(item)}
-                            </View>
-                        )}
-                    />
-                    {this.renderDots()}
+                    {
+                        (this.state.isLoading)
+                            ?
+                            (<ActivityIndicator size="large"/>)
+                            :
+                            (
+                                <FlatList
+                                    style={{width: '100%'}}
+                                    keyExtractor={(item, index) => index}
+                                    data={this.state.listVideo}
+                                    ItemSeparatorComponent={this.FlatListItemSeparator}
+                                    renderItem={({item}) => (
+                                        <View>
+                                            {this.renderRecommendation(item)}
+                                        </View>
+                                    )}
+                                />
+                            )
+                    }
                 </View>
             </View>
         );
-    }
+    };
     renderRecommendation = item => {
         const {navigation} = this.props;
         return (
@@ -401,31 +418,76 @@ class VideoComponent extends Component {
                                  source={{uri: item.thumb}}>
                 </ImageBackground>
                 <View style={[styles.flex, styles.column, styles.recommemdedInfo, styles.shadow]}>
-                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8,}}>
-                        {item.title}
+                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8}}>
+                        {item.title ? item.title : null}
                     </Text>
-                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end',}]}>
+                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end'}]}>
                         <Text style={{color: 'black'}}>
-                            {item.title.split('').slice(0, 50)}...
+                            {item.title ? item.title.split('').slice(0, 50) : null}...
                         </Text>
                     </View>
                 </View>
             </TouchableOpacity>
 
-        )
+        );
+    };
+
+    paginate = (array, page_size, page_number) => {
+        --page_number; // because pages logically start with 1, but technically with 0
+        console.log('paginate');
+        return array.slice(page_number * page_size, (page_number + 1) * page_size);
+    };
+
+    handleLoadMore = () => {
+        console.log('handle load more: ' + this.state.page_number);
+        this.setState({
+            isLoading: false,
+            listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
+            page_number : this.state.page_number + 1
+        });
+        // console.log(this.state.listVideo);
+    };
+
+    componentDidMount() {
+        console.log('componentDidMount: ' + this.state.page_number);
+        this.setState({
+            isLoading: false,
+            listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
+            page_number : this.state.page_number + 1
+        });
+        // console.log(this.state.listVideo);
     }
 
     render() {
+        // console.log(this.state.videos);
         return (
-            <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-                {this.renderDestinations()}
-                {this.renderRecommemded()}
-
-            </ScrollView>
-        )
+            <View style={styles.MainContainer}>
+                {
+                    (this.state.isLoading)
+                        ?
+                        (<ActivityIndicator size="large"/>)
+                        :
+                        (
+                            <FlatList
+                                style={{width: '100%'}}
+                                keyExtractor={(item, index) => index}
+                                data={this.state.listVideo}
+                                ItemSeparatorComponent={this.FlatListItemSeparator}
+                                onEndReached={this.handleLoadMore}
+                                onEndReachedThreshold={0.5}
+                                renderItem={({item}) => (
+                                    <ViewOverflow style={[styles.shadow, {height: 400, overflow: 'visible'}]}>
+                                        {this.renderDestination(item)}
+                                    </ViewOverflow>
+                                )}
+                            />
+                        )
+                }
+            </View>
+        );
     };
 };
 VideoComponent.defaultProps = {
-    destinations: mocks
+    destinations: mocks,
 };
 export default VideoComponent;
