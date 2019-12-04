@@ -14,6 +14,7 @@ import {
     Button, ListView
 } from 'react-native';
 import ViewOverflow from 'react-native-view-overflow';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
@@ -30,12 +31,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     header: {
-        backgroundColor: 'transparent',
-        paddingTop: 36,
-        paddingHorizontal: 36,
-        paddingBottom: 24,
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        //backgroundColor: 'transparent',
+        // paddingTop: 36,
+        // paddingHorizontal: 36,
+        // paddingBottom: 24,
+        // justifyContent: 'space-between',
+        // alignItems: 'center'
     },
     articles: {
         overflow: 'visible'
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         overflow: 'visible'
     },
     destinations: {
-        flex: 2,
+        flex: 1,
         justifyContent: 'space-between',
         paddingBottom: 30,
     },
@@ -127,8 +128,39 @@ const styles = StyleSheet.create({
         overflow: 'visible',
         // paddingHorizontal: 36,
         // paddingVertical: 24,
-    }
-
+    },
+    navBar: {
+        height: 55,
+        backgroundColor: 'white',
+        elevation: 3,
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    rightBar: {
+        flexDirection: 'row'
+    },
+    navItem: {
+        marginLeft: 25
+    },
+    tabBar: {
+    backgroundColor: 'white',
+    height: 60,
+    borderTopWidth: 0.5,
+    borderColor: '#E5E5E5',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: 3
+  },
+  tabItem: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }, 
+  tabTitle: {
+    fontSize: 11,
+    color: '#3c3c3c'
+  }
 });
 const mocks = [
     {
@@ -233,22 +265,76 @@ class VideoComponent extends Component {
 
     static navigationOptions = {
         header: (
-            <View style={[styles.row, styles.header,]}>
-                <View>
-                    <Text>
-                        Search for something
-                    </Text>
-                    <Text style={{fontSize: 24}}>
-                        Feeds
-                    </Text>
+            // <View style={[styles.row, styles.header,]}>
+            //     <View>
+            //         <Text>
+            //             Search for something
+            //         </Text>
+            //         <Text style={{fontSize: 24}}>
+            //             Feeds
+            //         </Text>
+            //     </View>
+            //     <View>
+            //         <Image style={styles.avatar}
+            //                source={{uri: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg'}}
+            //         />
+            //     </View>
+            // </View>
+            <View style={styles.container}>
+                <View style={styles.navBar}>
+                    <Image source={require('../image/youtube.jpg')} style={{width: 100, height: 40}}/>
+                    <View style={styles.rightBar}>
+                        <TouchableOpacity>
+                        <Icon style={styles.navItem} name="search" size={25}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                        <Icon style={styles.navItem} name="account-circle" size={25}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View>
-                    <Image style={styles.avatar}
-                           source={{uri: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg'}}
-                    />
-                </View>
+                {/* <View style={styles.tabBar}>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="home" size={25}/>
+                        <Text style={styles.tabLine}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="whatshot" size={25}/>
+                        <Text style={styles.tabLine}>Trending</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="subscriptions" size={25}/>
+                        <Text style={styles.tabLine}>Subscriptions</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="folder" size={25}/>
+                        <Text style={styles.tabLine}>Library</Text>
+                    </TouchableOpacity>
+                 </View> */}
             </View>
-        ),
+            // </View>
+       ),
+       footer: (
+        <View style={styles.container}>
+           <View style={styles.tabBar}>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="home" size={25}/>
+                        <Text style={styles.tabLine}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="whatshot" size={25}/>
+                        <Text style={styles.tabLine}>Trending</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="subscriptions" size={25}/>
+                        <Text style={styles.tabLine}>Subscriptions</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="folder" size={25}/>
+                        <Text style={styles.tabLine}>Library</Text>
+                    </TouchableOpacity>
+                 </View>
+            </View>
+       )
     };
 
     renderDots() {

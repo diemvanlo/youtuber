@@ -152,7 +152,7 @@ class Article extends Component {
     return (
       <View style={styles.flex}>
         <WebView
-            source={{ uri: myStr.replace("http://www.youtube.com/watch?v=", "https://www.youtube.com/embed/") }}
+            source={{ uri: myStr }}
         />
         <View style={[styles.flex]}>
           {this.renderDots()}
