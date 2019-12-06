@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 0.1,
     },
     flex: {
         flex: 1
@@ -136,7 +136,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        position:'relative',
+
     },
     rightBar: {
         flexDirection: 'row'
@@ -281,8 +283,8 @@ class VideoComponent extends Component {
             //     </View>
             // </View>
             <View style={styles.container}>
-                <View style={styles.navBar}>
-                    <Image source={require('../image/youtube.jpg')} style={{width: 100, height: 40}}/>
+                <View style={[styles.navBar]}>
+                    <Image source={require('../image/youtube.jpg')} style={{width: 150, height: 40, resizemode: 'center'}}/>
                     <View style={styles.rightBar}>
                         <TouchableOpacity>
                         <Icon style={styles.navItem} name="search" size={25}/>
@@ -292,49 +294,9 @@ class VideoComponent extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {/* <View style={styles.tabBar}>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="home" size={25}/>
-                        <Text style={styles.tabLine}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="whatshot" size={25}/>
-                        <Text style={styles.tabLine}>Trending</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="subscriptions" size={25}/>
-                        <Text style={styles.tabLine}>Subscriptions</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="folder" size={25}/>
-                        <Text style={styles.tabLine}>Library</Text>
-                    </TouchableOpacity>
-                 </View> */}
+                
             </View>
-            // </View>
        ),
-       footer: (
-        <View style={styles.container}>
-           <View style={styles.tabBar}>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="home" size={25}/>
-                        <Text style={styles.tabLine}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="whatshot" size={25}/>
-                        <Text style={styles.tabLine}>Trending</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="subscriptions" size={25}/>
-                        <Text style={styles.tabLine}>Subscriptions</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.tabItem}>
-                        <Icon name="folder" size={25}/>
-                        <Text style={styles.tabLine}>Library</Text>
-                    </TouchableOpacity>
-                 </View>
-            </View>
-       )
     };
 
     renderDots() {
@@ -506,7 +468,24 @@ class VideoComponent extends Component {
             <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
                 {this.renderDestinations()}
                 {this.renderRecommemded()}
-
+                <View style={styles.tabBar}>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="home" size={25}/>
+                        <Text style={styles.tabLine}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="whatshot" size={25}/>
+                        <Text style={styles.tabLine}>Trending</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="subscriptions" size={25}/>
+                        <Text style={styles.tabLine}>Subscriptions</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tabItem}>
+                        <Icon name="folder" size={25}/>
+                        <Text style={styles.tabLine}>Library</Text>
+                    </TouchableOpacity>
+                 </View>
             </ScrollView>
         )
     };
