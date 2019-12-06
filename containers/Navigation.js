@@ -8,7 +8,8 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import {Icon, Container, Content, Card, CardItem, Button, Text} from 'native-base';
-
+import {Dimensions} from 'react-native';
+import SideBar from '../screens/Sidebar';
 
 const TabNavigator = createBottomTabNavigator({
         Home: {
@@ -85,9 +86,22 @@ const AppDrawerNavigator = createDrawerNavigator({
         },
     },
     {
-        drawerWidth: 200,
-        animationEnabled: true,
-        swipeEnabled: true,
+
+        drawerWidth: Dimensions.get('window').width * 0.85,
+        hideStatusBar: true,
+
+        contentComponent: props => <SideBar {...props} />,
+        contentOptions: {
+            activeBackgroundColor: 'rgba(212,118,207, 0.2)',
+            activeTintColor: '#53115B',
+            itemsContainerStyle: {
+                marginTop: 16,
+                marginHorizontal: 8,
+            },
+            itemStyle: {
+                borderRadius: 4,
+            },
+        },
     },
 );
 const Navigation = new createStackNavigator(
