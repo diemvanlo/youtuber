@@ -6,7 +6,7 @@ import {Icon} from 'native-base';
 const SideBar = props => (
     <ScrollView>
         <ImageBackground
-            source={require('../assets/background.png')}
+            source={require('../assets/background.jpg')}
             style={{width: undefined, padding: 16, paddingTop: 48}}
         >
             <Image source={require('../assets/profile-pic.jpg')} style={styles.profile}/>

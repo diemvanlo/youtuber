@@ -88,8 +88,6 @@ const AppDrawerNavigator = createDrawerNavigator({
     {
 
         drawerWidth: Dimensions.get('window').width * 0.85,
-        hideStatusBar: true,
-
         contentComponent: props => <SideBar {...props} />,
         contentOptions: {
             activeBackgroundColor: 'rgba(212,118,207, 0.2)',
