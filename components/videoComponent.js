@@ -10,14 +10,16 @@ import {
     SafeAreaView,
     ActivityIndicator,
     TouchableOpacity,
-    ListView,
+    ListView, Alert,
 } from 'react-native';
 
 import {Container, Icon, Text, Content, Card, CardItem, Thumbnail, Body, Left, Right, Button} from 'native-base';
 import ViewOverflow from 'react-native-view-overflow';
 import {WebView} from 'react-native-webview';
 
+import { BackHandler } from 'react-native';
 const {width, height} = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
     flatList_items:
         {
@@ -304,72 +306,109 @@ class VideoComponent extends Component {
             listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
             page_number: this.state.page_number + 1,
         });
+        BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
         // console.log(this.state.listVideo);
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
+    }
+
+    handleBackButtonPressAndroid = () => {
+        Alert.alert(
+            'Exit App',
+            'Do you want to exit?',
+            [
+                {text: 'No', onPress: () => this.props.navigation.navigate('Home')},
+                {text: 'Yes', onPress: () => BackHandler.exitApp()},
+            ],
+            {cancelable: false});
+        return true;
+    };
     render() {
         // console.log(this.state.videos);
         return (
-            <Container>
-                <Content>
-                    <Card>
-                        <CardItem style={{height: 200}}>
-                            <WebView
-                                javaScriptEnabled={true}
-                                domStorageEnabled={true}
-                                source={{uri: 'https://www.youtube.com/embed/OCMs-YhSp2o?autoplay=1'}}
-                            />
-                        </CardItem>
-                        <CardItem>
-                            <Left>
-                                <Thumbnail
-                                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
-                                <Body>
-                                    <Text>Điểm Văn Lô</Text>
-                                    <Text note>26 February 2000</Text>
-                                </Body>
-                            </Left>
-                            <Right>
+            <View style={{flex: 1}}>
+                <WebView
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    style={{backgroundColor: 'grey', width: '100%'}}
+                    source={{uri: 'https://www.youtube.com/embed/OCMs-YhSp2o?autoplay=1'}}
+                />
+                <Container>
+                    <Content>
+                        <Card>
+                            <CardItem style={{height: 200}}>
+                                <WebView
+                                    javaScriptEnabled={true}
+                                    domStorageEnabled={true}
+                                    source={{uri: 'https://www.youtube.com/embed/OCMs-YhSp2o?autoplay=1'}}
+                                />
+                            </CardItem>
+                            <CardItem>
+                                <Left>
+                                    <Thumbnail
+                                        source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+                                    <Body>
+                                        <Text>Điểm Văn Lô</Text>
+                                        <Text note>26 February 2000</Text>
+                                    </Body>
+                                </Left>
+                                <Right>
 
-                                <Button transparent>
-                                    <Icon name='more'/>
-                                </Button>
-                            </Right>
-                        </CardItem>
-                        <CardItem style={{height: 45}}>
-                            <Left>
-                                <Button transparent>
-                                    <Icon name='heart-empty'/>
-                                </Button>
-                                <Button transparent>
-                                    <Icon name='chatbubbles'/>
-                                </Button>
-                                <Button transparent>
-                                    <Icon name='share-alt'/>
-                                </Button>
-                            </Left>
-                        </CardItem>
-                        <CardItem>
-                            <Text>1000 likes</Text>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <Text>This is why this show was so smart. Any other show would have presented this as
-                                    the heroic
-                                    sibling finally taking down his evil sibling and restoring honor to his nation. But
-                                    this show
-                                    knew what was really going on. And what was really going on was a brutal fight to
-                                    the death
-                                    between two teenaged siblings. One that had been abused all his life and one who had
-                                    never been
-                                    loved all her life. Theres nothing heroic about this. This is just messed up and sad
-                                    and the
-                                    music reflect this.</Text>
-                            </Body>
-                        </CardItem>
-                    </Card>
-                </Content>
-            </Container>
+                                    <Button transparent>
+                                        <Icon name='more'/>
+                                    </Button>
+                                </Right>
+                            </CardItem>
+                            <CardItem style={{height: 45}}>
+                                <Left>
+                                    <Button transparent onPress={() => {
+                                        console.log('click');
+                                    }}>
+                                        <Icon name='heart-empty'/>
+                                    </Button>
+                                    <Button transparent>
+                                        <Icon name='chatbubbles'/>
+                                    </Button>
+                                    <Button transparent>
+                                        <Icon name='share-alt'/>
+                                    </Button>
+                                </Left>
+                            </CardItem>
+                            <CardItem>
+                                <Text>1000 likes</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <Text>This is why this show was so smart. Any other show would have presented this
+                                        as
+                                        the heroic
+                                        sibling finally taking down his evil sibling and restoring honor to his nation.
+                                        But
+                                        this show
+                                        knew what was really going on. And what was really going on was a brutal fight
+                                        to
+                                        the death
+                                        between two teenaged siblings. One that had been abused all his life and one who
+                                        had
+                                        never been
+                                        loved all her life. Theres nothing heroic about this. This is just messed up and
+                                        sad
+                                        and the
+                                        music reflect this.</Text>
+                                </Body>
+                            </CardItem>
+                        </Card>
+                    </Content>
+                </Container>
+            </View>
         );
     };
 };

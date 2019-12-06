@@ -33,7 +33,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUpDeleteItemAction: (deleteVideoID) => {
             console.log(deleteVideoID);
-
             dispatch(deleteItemAction(deleteVideoID));
         }
     };

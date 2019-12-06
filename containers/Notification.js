@@ -1,7 +1,7 @@
 import {Container, Text, Content, Icon} from 'native-base';
 import React, {Component} from 'react';
 
-export default class Trend extends Component {
+export default class Notification extends Component {
     static navigationOptions = {
         title: 'Notifications',
         tabBarIcon: ({tintColor}) => {

@@ -2,20 +2,22 @@ import {Container, Text, Content, Icon} from 'native-base';
 import React, {Component} from 'react';
 import {BackHandler, Alert} from 'react-native';
 
-export default class Library extends Component {
+export default class Exit extends Component {
     static navigationOptions = {
-        title: 'Library',
+        title: 'Exit',
         tabBarIcon: ({tintColor}) => {
-            return <Icon name='folder' style={{color: tintColor}}></Icon>;
+            return <Icon name='exit' style={{color: tintColor}}></Icon>;
         },
     };
 
-    componentWillMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+    constructor() {
+        super();
+        // this.backPressed();
     }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+    componentWillMount() {
+        // BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+        this.props.navigation.addListener('didFocus', () => this.backPressed());
     }
 
     backPressed = () => {
@@ -23,14 +25,15 @@ export default class Library extends Component {
             'Exit App',
             'Do you want to exit?',
             [
-                {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'No', onPress: () => this.props.navigation.navigate('Home')},
                 {text: 'Yes', onPress: () => BackHandler.exitApp()},
             ],
-            { cancelable: false });
+            {cancelable: false});
         return true;
-    }
+    };
 
     render() {
+        // this.backPressed();
         return <Container>
             <Content>
                 <Text>
