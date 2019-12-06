@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, Animated, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {
+    Text,
+    StyleSheet,
+    View,
+    Animated,
+    Image,
+    Dimensions,
+    ScrollView,
+    TouchableOpacity,
+    Platform,
+} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {WebView} from 'react-native-webview';
@@ -147,6 +157,8 @@ class Article extends Component {
         return (
             <View style={styles.flex}>
                 <WebView
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
                     source={{uri: url.replace('http://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/') + '?autoplay=1'}}
                 />
                 <View style={[styles.flex]}>

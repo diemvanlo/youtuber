@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
     View,
     ScrollView,
     Dimensions,
@@ -11,9 +10,12 @@ import {
     SafeAreaView,
     ActivityIndicator,
     TouchableOpacity,
-    Button, ListView,
+    ListView,
 } from 'react-native';
+
+import {Container, Icon, Text, Content, Card, CardItem, Thumbnail, Body, Left, Right, Button} from 'native-base';
 import ViewOverflow from 'react-native-view-overflow';
+import {WebView} from 'react-native-webview';
 
 const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
@@ -143,90 +145,8 @@ const styles = StyleSheet.create({
     },
 
 });
-const mocks = [
-    {
-        id: 1,
-        user: {
-            name: 'Lelia Chavez',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-        },
-        saved: true,
-        location: 'Santorini, Greece',
-        temperature: 34,
-        title: 'Santorini',
-        description: 'Santorini is one of the Cyclades islands in the Aegean Sea. ',
-        rating: 4.3,
-        reviews: 3212,
-        preview: 'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        images: [
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        ],
-    },
-    {
-        id: 2,
-        user: {
-            name: 'Lelia Chavez',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-        },
-        saved: false,
-        location: 'Loutraki, Greece',
-        temperature: 34,
-        title: 'Loutraki',
-        description: 'This attractive small town, 80 kilometers from Athens',
-        rating: 4.6,
-        reviews: 3212,
-        preview: 'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
-        images: [
-            'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1446903572544-8888a0e60687?auto=format&fit=crop&w=800&q=80',
-        ],
-    },
-    {
-        id: 3,
-        user: {
-            name: 'Lelia Chavez',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-        },
-        saved: true,
-        location: 'Santorini, Greece',
-        temperature: 34,
-        title: 'Santorini',
-        description: 'Santorini - Description',
-        rating: 3.2,
-        reviews: 3212,
-        preview: 'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        images: [
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80',
-        ],
-    },
-    {
-        id: 4,
-        user: {
-            name: 'Lelia Chavez',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-        },
-        location: 'Loutraki, Greece',
-        temperature: 34,
-        title: 'Loutraki',
-        description: 'This attractive small town, 80 kilometers from Athens',
-        rating: 5,
-        reviews: 3212,
-        preview: 'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
-        images: [
-            'https://images.unsplash.com/photo-1458906931852-47d88574a008?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1446903572544-8888a0e60687?auto=format&fit=crop&w=800&q=80',
-        ],
-    },
-];
 
 class VideoComponent extends Component {
-
     constructor(props) {
         super(props);
         this.props.onFetchVideos();
@@ -261,6 +181,10 @@ class VideoComponent extends Component {
                 </View>
             </View>
         ),
+        headerTitle: 'gggbbcc',
+        tabBarIcon: ({tintColor}) => {
+            return <Icon name='home' style={{color: tintColor}}></Icon>;
+        },
     };
 
     renderDots() {
@@ -272,42 +196,6 @@ class VideoComponent extends Component {
                         key={`step-${item.id}`}
                         style={[styles.dots, item.id === 1 ? styles.activeDot : null]}/>;
                 })}
-            </View>
-        );
-    };
-
-    renderDestinations = () => {
-        return (
-            <View style={[styles.column, styles.destinations, styles.shadow, {elevation: 2}]}>
-                <FlatList data={this.props.videos} renderItem={(rowData) => {
-                    <View>
-                        <Text>Hello</Text>
-                    </View>;
-                }}>
-                </FlatList>
-                <FlatList horizontal
-                          pagingEnabled
-                          scrollEnabled
-                          showsHorizontalScrollIndicator={false}
-                          decelerationRate={0}
-                          scrollEventThrottle={16}
-                          snapToAlignment="center"
-                    // ListEmptyComponent={this.emptyList}
-                    // ListHeaderComponent={this.headerList}
-                          ListFooterComponent={this.footerList}
-                          data={this.props.videos}
-                          style={{overflow: 'visible', height: 360}}
-                          keyExtractor={(item, index) => `${item.id}`}
-                          renderItem={({item}) => (
-                              <ViewOverflow style={[styles.shadow, {height: 400, overflow: 'visible'}]}>
-                                  {this.renderDestination(item)}
-                              </ViewOverflow>
-                          )}
-                />
-                {this.renderDots()}
-
-                {/*<Text>ok</Text>*/}
-                {/*{renderTodos}*/}
             </View>
         );
     };
@@ -324,44 +212,6 @@ class VideoComponent extends Component {
             </View>
         );
     };
-
-    renderDestination = (item) => {
-        return (
-            <View style={[styles.destination, styles.column, {marginLeft: -33, width: width * 1}]}>
-                <ImageBackground
-                    style={[styles.flex, styles.destination, styles.shadow]}
-                    imageStyle={{borderRadius: 12}}
-                    source={{uri: item.thumb}}
-                >
-                    <View style={[styles.row, {justifyContent: 'space-between'}]}>
-                        <View style={{flex: 0}}>
-                            {/*<Image source={{ uri: item.user.avatar }} style={styles.avatar} />*/}
-                        </View>
-                        <View style={[styles.column, {flex: 2}]}>
-                            <Text style={{fontWeight: 'bold', color: 'white'}}>{item.title}</Text>
-                            <Text style={{color: 'white'}}>
-                                <Text> {item.location}</Text>
-                            </Text>
-                        </View>
-                        <View style={{flex: 0, justifyContent: 'center', alignItems: 'flex-end'}}>
-                            <Text style={styles.rating}>{item.rating}</Text>
-                        </View>
-                    </View>
-                </ImageBackground>
-                <View style={[styles.column, styles.destinationInfo, styles.shadow]}>
-                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8}}>
-                        {item.title}
-                    </Text>
-                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end'}]}>
-                        <Text style={{color: 'black'}}>
-                            {item.title.split('').slice(0, 50)}...
-                        </Text>
-                    </View>
-                </View>
-            </View>
-        );
-    };
-
     FlatListItemSeparator = () => {
         return (
             <View
@@ -434,7 +284,6 @@ class VideoComponent extends Component {
 
     paginate = (array, page_size, page_number) => {
         --page_number; // because pages logically start with 1, but technically with 0
-        console.log('paginate');
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
     };
 
@@ -443,17 +292,17 @@ class VideoComponent extends Component {
         this.setState({
             isLoading: false,
             listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
-            page_number : this.state.page_number + 1
+            page_number: this.state.page_number + 1,
         });
         // console.log(this.state.listVideo);
     };
 
     componentDidMount() {
-        console.log('componentDidMount: ' + this.state.page_number);
+        // console.log('componentDidMount: ' + this.state.page_number);
         this.setState({
             isLoading: false,
             listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
-            page_number : this.state.page_number + 1
+            page_number: this.state.page_number + 1,
         });
         // console.log(this.state.listVideo);
     }
@@ -461,33 +310,67 @@ class VideoComponent extends Component {
     render() {
         // console.log(this.state.videos);
         return (
-            <View style={styles.MainContainer}>
-                {
-                    (this.state.isLoading)
-                        ?
-                        (<ActivityIndicator size="large"/>)
-                        :
-                        (
-                            <FlatList
-                                style={{width: '100%'}}
-                                keyExtractor={(item, index) => index}
-                                data={this.state.listVideo}
-                                ItemSeparatorComponent={this.FlatListItemSeparator}
-                                onEndReached={this.handleLoadMore}
-                                onEndReachedThreshold={0.5}
-                                renderItem={({item}) => (
-                                    <ViewOverflow style={[styles.shadow, {height: 400, overflow: 'visible'}]}>
-                                        {this.renderDestination(item)}
-                                    </ViewOverflow>
-                                )}
+            <Container>
+                <Content>
+                    <Card>
+                        <CardItem style={{height: 200}}>
+                            <WebView
+                                javaScriptEnabled={true}
+                                domStorageEnabled={true}
+                                source={{uri: 'https://www.youtube.com/embed/OCMs-YhSp2o?autoplay=1'}}
                             />
-                        )
-                }
-            </View>
+                        </CardItem>
+                        <CardItem>
+                            <Left>
+                                <Thumbnail
+                                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}/>
+                                <Body>
+                                    <Text>Điểm Văn Lô</Text>
+                                    <Text note>26 February 2000</Text>
+                                </Body>
+                            </Left>
+                            <Right>
+
+                                <Button transparent>
+                                    <Icon name='more'/>
+                                </Button>
+                            </Right>
+                        </CardItem>
+                        <CardItem style={{height: 45}}>
+                            <Left>
+                                <Button transparent>
+                                    <Icon name='heart-empty'/>
+                                </Button>
+                                <Button transparent>
+                                    <Icon name='chatbubbles'/>
+                                </Button>
+                                <Button transparent>
+                                    <Icon name='share-alt'/>
+                                </Button>
+                            </Left>
+                        </CardItem>
+                        <CardItem>
+                            <Text>1000 likes</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>This is why this show was so smart. Any other show would have presented this as
+                                    the heroic
+                                    sibling finally taking down his evil sibling and restoring honor to his nation. But
+                                    this show
+                                    knew what was really going on. And what was really going on was a brutal fight to
+                                    the death
+                                    between two teenaged siblings. One that had been abused all his life and one who had
+                                    never been
+                                    loved all her life. Theres nothing heroic about this. This is just messed up and sad
+                                    and the
+                                    music reflect this.</Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </Content>
+            </Container>
         );
     };
-};
-VideoComponent.defaultProps = {
-    destinations: mocks,
 };
 export default VideoComponent;

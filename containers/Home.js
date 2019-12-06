@@ -1,5 +1,5 @@
 import {connect, Provider} from 'react-redux';
-import HomeComponent from '../components/HomeComponent';
+import videoComponent from '../components/videoComponent';
 import {
     addVideosAction,
     fetchVideosAction,
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-const homeContainer = connect(mapStateToProps, mapDispatchToProps)(HomeComponent);
-export default homeContainer;
+const home = connect(mapStateToProps, mapDispatchToProps)(videoComponent);
+export default home;
 
 
