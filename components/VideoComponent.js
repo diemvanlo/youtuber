@@ -2,24 +2,15 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    ScrollView,
     Dimensions,
-    ImageBackground,
-    FlatList,
     Image,
-    SafeAreaView,
-    ActivityIndicator,
-    TouchableOpacity,
-    ListView, Alert,
+    Alert,
 } from 'react-native';
-
 import {Container, Icon, Text, Content, Card, CardItem, Thumbnail, Body, Left, Right, Button} from 'native-base';
-import ViewOverflow from 'react-native-view-overflow';
 import {WebView} from 'react-native-webview';
-
-import { BackHandler } from 'react-native';
+import {BackHandler} from 'react-native';
 const {width, height} = Dimensions.get('screen');
-
+import BaseScreen from '../utils/BaseScreen';
 const styles = StyleSheet.create({
     flatList_items:
         {
@@ -148,9 +139,10 @@ const styles = StyleSheet.create({
 
 });
 
-class VideoComponent extends Component {
+class VideoComponent extends BaseScreen {
     constructor(props) {
         super(props);
+        this.activeMenu = 'Home';
         this.props.onFetchVideos();
         // console.log(this.props.videos);
         const pageVideo = this.props.videos.slice(1, 10);
@@ -189,19 +181,6 @@ class VideoComponent extends Component {
         },
     };
 
-    renderDots() {
-        const {destinations} = this.props;
-        return (
-            <View style={[styles.flex, styles.row, {justifyContent: 'center', alignItems: 'center', marginTop: 10}]}>
-                {destinations.map(item => {
-                    return <View
-                        key={`step-${item.id}`}
-                        style={[styles.dots, item.id === 1 ? styles.activeDot : null]}/>;
-                })}
-            </View>
-        );
-    };
-
     emptyList = () => {
 
     };
@@ -223,64 +202,6 @@ class VideoComponent extends Component {
                     backgroundColor: '#607D8B',
                 }}
             />
-        );
-    };
-    renderRecommemded = () => {
-        return (
-            <View style={[styles.flex, styles.column, styles.recommemded]}>
-                <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'baseline'}]}>
-                    <Text style={{fontSize: 18}}>
-                        Recommemeded
-                    </Text>
-                    <Text style={{color: '#BCCCD4'}}>
-                        More
-                    </Text>
-                </View>
-
-                <View style={[styles.column, styles.recommemdations, styles.shadow, {elevation: 2}]}>
-                    {
-                        (this.state.isLoading)
-                            ?
-                            (<ActivityIndicator size="large"/>)
-                            :
-                            (
-                                <FlatList
-                                    style={{width: '100%'}}
-                                    keyExtractor={(item, index) => index}
-                                    data={this.state.listVideo}
-                                    ItemSeparatorComponent={this.FlatListItemSeparator}
-                                    renderItem={({item}) => (
-                                        <View>
-                                            {this.renderRecommendation(item)}
-                                        </View>
-                                    )}
-                                />
-                            )
-                    }
-                </View>
-            </View>
-        );
-    };
-    renderRecommendation = item => {
-        const {navigation} = this.props;
-        return (
-            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Article', {article: item})}>
-                <ImageBackground style={[styles.flex, {height: 400}]}
-                                 imageStyle={{borderTopLeftRadius: 12, borderTopRightRadius: 12}}
-                                 source={{uri: item.thumb}}>
-                </ImageBackground>
-                <View style={[styles.flex, styles.column, styles.recommemdedInfo, styles.shadow]}>
-                    <Text style={{fontSize: 14, fontWeight: '500', paddingBottom: 8}}>
-                        {item.title ? item.title : null}
-                    </Text>
-                    <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'flex-end'}]}>
-                        <Text style={{color: 'black'}}>
-                            {item.title ? item.title.split('').slice(0, 50) : null}...
-                        </Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
-
         );
     };
 
@@ -308,7 +229,7 @@ class VideoComponent extends Component {
         });
         BackHandler.addEventListener(
             'hardwareBackPress',
-            this.handleBackButtonPressAndroid
+            this.handleBackButtonPressAndroid,
         );
         // console.log(this.state.listVideo);
     }
@@ -316,7 +237,7 @@ class VideoComponent extends Component {
     componentWillUnmount() {
         BackHandler.removeEventListener(
             'hardwareBackPress',
-            this.handleBackButtonPressAndroid
+            this.handleBackButtonPressAndroid,
         );
     }
 
@@ -331,9 +252,10 @@ class VideoComponent extends Component {
             {cancelable: false});
         return true;
     };
+
     render() {
         // console.log(this.state.videos);
-        return (
+        return this.show(
             <View style={{flex: 1}}>
                 <WebView
                     javaScriptEnabled={true}
@@ -344,13 +266,6 @@ class VideoComponent extends Component {
                 <Container>
                     <Content>
                         <Card>
-                            <CardItem style={{height: 200}}>
-                                <WebView
-                                    javaScriptEnabled={true}
-                                    domStorageEnabled={true}
-                                    source={{uri: 'https://www.youtube.com/embed/OCMs-YhSp2o?autoplay=1'}}
-                                />
-                            </CardItem>
                             <CardItem>
                                 <Left>
                                     <Thumbnail
@@ -408,7 +323,7 @@ class VideoComponent extends Component {
                         </Card>
                     </Content>
                 </Container>
-            </View>
+            </View>,
         );
     };
 };

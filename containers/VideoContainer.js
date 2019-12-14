@@ -1,5 +1,8 @@
-import {connect, Provider} from 'react-redux';
-import videoComponent from '../components/VideoComponent';
+import React from 'react';
+import BaseScreen from '../utils/BaseScreen';
+import {Icon, Button, Card, CardItem, Text, Body, Left, Right} from 'native-base';
+import {connect} from 'react-redux';
+import EmptyComponent from '../utils/EmptyComponent';
 import {
     addVideosAction,
     fetchVideosAction,
@@ -7,15 +10,13 @@ import {
     fetchFailedAction,
     updateItemAction,
     updateItemSuccessAction,
-    deleteItemAction
+    deleteItemAction,
 } from '../actions';
-import React, {Component} from 'react';
+import videoComponent from '../components/VideoComponent';
 
 const mapStateToProps = (state) => {
-    return {
-        videos: state.videoReducers
-    }
-}
+    return {videos: state.videoReducers};
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -41,5 +42,3 @@ const mapDispatchToProps = (dispatch) => {
 
 const home = connect(mapStateToProps, mapDispatchToProps)(videoComponent);
 export default home;
-
-

@@ -1,4 +1,11 @@
-import { ADD_VIDEO, FETCH_VIDEO, FETCH_SUCCEEDED, FETCH_FAILED, UPDATE_VIDEO, UPDATE_SUCCEEDED } from '../actions/actionTypes';
+import {
+    ADD_VIDEO,
+    FETCH_VIDEO,
+    FETCH_SUCCEEDED,
+    FETCH_FAILED,
+    UPDATE_VIDEO,
+    UPDATE_SUCCEEDED,
+} from '../actions/actionTypes';
 
 const videoReducers = (videos = [], action) => {
     switch (action.type) {
@@ -11,16 +18,16 @@ const videoReducers = (videos = [], action) => {
         // return [...videos, action.newVideo];
         case UPDATE_SUCCEEDED:
             return videos;
-            // videos.map(eachVideo => (eachVideo.id.toString() === action.updatedVideo.id) ?
-            //     {
-            //         ...eachVideo,
-            //         name: action.updatedVideo.name,
-            //         releaseYear: action.updatedVideo.releaseYear,
-            //     } : eachVideo,
-            // );
+        // videos.map(eachVideo => (eachVideo.id.toString() === action.updatedVideo.id) ?
+        //     {
+        //         ...eachVideo,
+        //         name: action.updatedVideo.name,
+        //         releaseYear: action.updatedVideo.releaseYear,
+        //     } : eachVideo,
+        // );
         default:
             return videos;
     }
-}
+};
 
 export default videoReducers;

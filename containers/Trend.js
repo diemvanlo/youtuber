@@ -1,7 +1,14 @@
-import {Container, Text, Content, Icon} from 'native-base';
+import {Container, Text, Content, Icon, Footer, FooterTab} from 'native-base';
 import React, {Component} from 'react';
+import BaseScreen from '../utils/BaseScreen';
 
-export default class Trend extends Component {
+export default class Trend extends BaseScreen {
+
+    constructor(props) {
+        super(props);
+        this.activeMenu = 'Trend';
+    }
+
     static navigationOptions = {
         title: 'Trending',
         tabBarIcon: ({tintColor}) => {
@@ -10,13 +17,15 @@ export default class Trend extends Component {
     };
 
     render() {
-        return <Container>
-            <Content>
-                <Text>
-                    This is my Trending Tab
-                </Text>
-            </Content>
-        </Container>;
+        return this.show(
+            <Container>
+                <Content>
+                    <Text>
+                        This is my Trending Tab
+                    </Text>
+                </Content>
+            </Container>,
+        );
     }
 }
 

@@ -36,6 +36,10 @@ target 'youtuber' do
 
 
 
+  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
+
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
   target 'youtuberTests' do
     inherit! :search_paths
     # Pods for testing

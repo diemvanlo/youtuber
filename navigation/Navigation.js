@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
-import home from './Home';
-import Trend from './Trend';
-import Library from './Library';
-import Notification from './Notification';
+import Home from '../containers/Home';
+import Trend from '../containers/Trend';
+import Library from '../containers/Library';
+import Notification from '../containers/Notification';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Icon, Container, Content, Card, CardItem, Button, Text} from 'native-base';
-import {Dimensions} from 'react-native';
+import {Dimensions, Easing, Animated} from 'react-native';
 import SideBar from '../screens/Sidebar';
-import Exit from './Exit';
+import Exit from '../containers/Exit';
+import {Transition} from 'react-native-reanimated';
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
+import routes from './Routes';
 
 const TabNavigator = createBottomTabNavigator({
         Home: {
-            screen: home,
+            screen: Home,
             headerTitle: 'ggg',
             title: 'gbbb',
         },
@@ -107,13 +110,42 @@ const AppDrawerNavigator = createDrawerNavigator({
         },
     },
 );
-const Navigation = new createStackNavigator(
-    {
-        videoContainer: {
-            screen: home,
+const transitionConfig = () => {
+    return {
+        transitionSpec: {
+            duration: 750,
+            easing: Easing.out(Easing.poly(4)),
+            timing: Animated.timing,
+            useNativeDriver: true,
         },
-    }, {
-        initialRouteName: 'home',
-    },
-);
-export default AppDrawerNavigator;
+        screenInterpolator: sceneProps => {
+            const {layout, position, scene, index, scenes} = sceneProps;
+            const thisSceneIndex = scene.index;
+            const width = layout.initWidth;
+            const height = layout.initHeight;
+            const translateY = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [height, 0, 0],
+            });
+            const translateX = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [width, 0, 0],
+            });
+            //console.log(scene.route.routeName + ' walo');
+            return (scene.route.routeName === 'player') ? {transform: [{translateY}]} : {transform: [{translateX}]};
+        },
+    };
+};
+
+let param = {
+    initialRouteName: 'feed',
+    headerMode: 'none',
+    transitionConfig,
+};
+const AppStackNavigator = createStackNavigator(
+    routes,
+    {
+        param,
+    });
+
+export default AppStackNavigator;

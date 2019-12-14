@@ -1,11 +1,11 @@
-const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=47';
-// const getVideosUrl = 'http://5db9b400eddc81001495f0df.mockapi.io/api/videos';
+// const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=47';
+const getVideosUrl = 'http://5de9b255cb3e3800141b9367.mockapi.io/video';
 const postVideosUrl = 'http://192.168.1.10:8080/video/save';
 const updateVideosUrl = 'http://192.168.1.10:8080/video/update';
-const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete'
+const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete';
 
 function* getVideosFromApi() {
-
+    // console.log(getVideosUrl);
     const json = yield fetch(getVideosUrl, {
         method: 'GET',
         headers: {
@@ -13,19 +13,22 @@ function* getVideosFromApi() {
             'Content-Type': 'application/json',
         },
         body: '',
-    }).then(response => response.json());
-    // console.log("fgg");
+    }).then(response => response.json()).then((responseJson) => {
+        // console.log(responseJson);
+        return responseJson;
+    })
+        .catch((error) => {
+            console.error(error);
+        });
     // console.log(json);
-
-    const videos = yield (json.content);
-    // console.log(json.content);
+    const videos = yield (json);
     return videos;
 }
 
 function* postVideosFromApi(newVideo) {
     console.log(JSON.stringify({
         name: newVideo.name,
-        releaseYear: newVideo.releaseYear
+        releaseYear: newVideo.releaseYear,
     }));
 
     yield fetch(postVideosUrl, {
@@ -36,7 +39,7 @@ function* postVideosFromApi(newVideo) {
         },
         body: JSON.stringify({
             name: newVideo.name,
-            releaseYear: newVideo.releaseYear
+            releaseYear: newVideo.releaseYear,
         }),
     });
     return;
@@ -47,7 +50,7 @@ function* updateVideoFromApi(updateVideo) {
     console.log(JSON.stringify({
         id: updateVideo.id,
         name: updateVideo.name,
-        releaseYear: updateVideo.releaseYear
+        releaseYear: updateVideo.releaseYear,
     }));
 
     yield fetch(urlLink, {
@@ -60,7 +63,7 @@ function* updateVideoFromApi(updateVideo) {
         body: JSON.stringify({
             id: updateVideo.id,
             name: updateVideo.name,
-            releaseYear: updateVideo.releaseYear
+            releaseYear: updateVideo.releaseYear,
         }),
     });
 }
@@ -82,5 +85,5 @@ export const Api = {
     getVideosFromApi,
     postVideosFromApi,
     updateVideoFromApi,
-    deleteVideoFromApi
+    deleteVideoFromApi,
 };
