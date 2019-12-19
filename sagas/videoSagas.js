@@ -12,10 +12,12 @@ import {put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {Api} from './api';
 
 function* fetchVideos(action) {
+    let isSreaching;
+    isSreaching = action.searchString ? true : false;
     try {
         const receivedVideos = yield Api.getVideosFromApi(action);
         yield put({
-            type: FETCH_SUCCEEDED, receivedVideos: receivedVideos,
+            type: FETCH_SUCCEEDED, receivedVideos: receivedVideos, isSreaching,
         });
     } catch (error) {
         yield put({type: FETCH_FAILED, error});

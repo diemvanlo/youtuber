@@ -35,6 +35,7 @@ export default class Library extends BaseScreen {
                         <Icon style={{color: '#E3E3E3'}} name='ios-search'/>
                         <Input style={{color: '#000'}} value={this.state.term} placeholder={'Search...'}
                                onChangeText={(t) => {
+                                   // console.log(t);
                                    this.updateState({term: t});
                                    this.forceUpdateHandler();
                                }}/>

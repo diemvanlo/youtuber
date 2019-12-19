@@ -25,6 +25,7 @@ class videoItem extends BaseScreen {
     typeId = '';
     page = 1;
     fetchFinished: true;
+    itemListNotEnd: true;
 
     constructor(props) {
         super(props);
@@ -44,12 +45,13 @@ class videoItem extends BaseScreen {
                 this.page++;
             }
         }
-        // console.log(this.props.videos.length / 10 + 1);
-        this.props.onFetchVideos(this.page, this.limit);
+        this.props.onFetchVideos(this.page, this.limit, this.props.typeId);
+        this.itemListNotEnd = (this.props.videos.length < 1);
         this.updateState({fetchFinished: true, videos: this.props.videos});
     }
 
     render() {
+        // console.log(this.props.videos.length);
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
                 <GridView
@@ -59,15 +61,18 @@ class videoItem extends BaseScreen {
                     itemDimension={130}
                     spacing={15}
                     style={{backgroundColor: '#fff'}}
-                    onEndReachedThreshold={.5}
+                    onEndReachedThreshold={1.5}
                     onEndReached={(d) => {
-                        this.loadLists(true);
+                        console.log(this.props.typeId);
+                        if (!this.props.typeId) {
+                            this.loadLists(true);
+                        }
                         return true;
                     }}
                     fixed={false}
                     ListFooterComponent={
                         <View style={{paddingVertical: 20}}>
-                            {this.state.fetchFinished ? (<Text/>) : (
+                            {this.state.fetchFinished || this.props.typeId ? (<Text/>) : (
                                 <View style={{
                                     justifyContent: 'center',
                                     alignContent: 'center',
@@ -150,8 +155,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchVideos: (page, limit) => {
-            dispatch(fetchVideosAction(page, limit));
+        onFetchVideos: (page, limit, searchString) => {
+            dispatch(fetchVideosAction(page, limit, searchString));
         },
         onAddVideo: (newVideo) => {
             dispatch(addVideosAction(newVideo));
@@ -163,7 +168,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateItemSuccessAction(updatedVideo));
         },
         onUpDeleteItemAction: (deleteVideoID) => {
-            console.log(deleteVideoID);
             dispatch(deleteItemAction(deleteVideoID));
         },
     };

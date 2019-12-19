@@ -5,8 +5,14 @@ const updateVideosUrl = 'http://192.168.1.10:8080/video/update';
 const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete';
 
 function* getVideosFromApi(action) {
-    console.log(`${getVideosUrl}${action.page}&limit=${action.limit}`);
-    const json = yield fetch(`${getVideosUrl}${action.page}&limit=${action.limit}`, {
+    // console.log(action);
+
+    let getVideosUrll = `${getVideosUrl}${action.page}&limit=${action.limit}`;
+    if (action.searchString !== undefined) {
+        getVideosUrll += `&search=${action.searchString}`;
+    }
+    console.log(getVideosUrll);
+    const json = yield fetch(getVideosUrll, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

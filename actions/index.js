@@ -9,10 +9,10 @@ import {
     DELETE_SUCCEEDED,
 } from './actionTypes';
 
-export const fetchVideosAction = (page, limit) => {
+export const fetchVideosAction = (page, limit, searchString) => {
     return {
         type: FETCH_VIDEO,
-        page, limit,
+        page, limit, searchString,
     };
 };
 export const addVideosAction = (newVideo) => {

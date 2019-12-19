@@ -150,7 +150,6 @@ class VideoComponent extends BaseScreen {
     constructor(props) {
         super(props);
         this.activeMenu = 'Home';
-        // this.props.onFetchVideos(1,10);
         // console.log(this.props.videos);
         const pageVideo = this.props.videos.slice(1, 10);
         this.state = {

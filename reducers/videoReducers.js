@@ -10,9 +10,9 @@ import {
 const videoReducers = (videos = [], action) => {
     switch (action.type) {
         case FETCH_SUCCEEDED:
-            // console.log(`videos in reducers:   ${action.receivedVideos}`);
-            videos =  videos.concat(action.receivedVideos);
-            // console.log(videos);
+            // console.log(action.receivedVideos);
+            // console.log('call reducer');
+            videos = action.isSreaching ? action.receivedVideos : videos.concat(action.receivedVideos);
             return videos;
         case FETCH_FAILED:
             return [];
