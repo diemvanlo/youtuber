@@ -9,9 +9,10 @@ import {
     DELETE_SUCCEEDED,
 } from './actionTypes';
 
-export const fetchVideosAction = () => {
+export const fetchVideosAction = (page, limit) => {
     return {
         type: FETCH_VIDEO,
+        page, limit,
     };
 };
 export const addVideosAction = (newVideo) => {
@@ -27,6 +28,7 @@ export const fetchFailedAction = (error) => {
     };
 };
 export const fetchSucceededAction = (receivedVideos) => {
+    // console.log(receivedVideos);
     return {
         type: FETCH_SUCCEEDED,
         receivedVideos,

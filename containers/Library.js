@@ -19,7 +19,12 @@ export default class Library extends BaseScreen {
             ...this.state,
             term: '',
         };
+        this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
     }
+
+    forceUpdateHandler() {
+        this.forceUpdate();
+    };
 
     render() {
         return this.show(
@@ -28,46 +33,47 @@ export default class Library extends BaseScreen {
                         style={{paddingBottom: 0, backgroundColor: '#141821', height: 65}}>
                     <Item>
                         <Icon style={{color: '#E3E3E3'}} name='ios-search'/>
-                        <Input style={{color: '#E3E3E3'}} value={this.state.term} placeholder={'Search...'}
+                        <Input style={{color: '#000'}} value={this.state.term} placeholder={'Search...'}
                                onChangeText={(t) => {
                                    this.updateState({term: t});
+                                   this.forceUpdateHandler();
                                }}/>
                         <Icon name='music-tone' type="SimpleLineIcons" style={{color: '#303A4F'}}/>
                     </Item>
                 </Header>
                 {this.state.term === '' ? (
-                    <Tabs style={{
-                        paddingTop: 0,
-                        backgroundColor: '#E3E3E3',
-                        elevation: 0, shadowOffset: {height: 0, width: 0},
-                        shadowOpacity: 0, flex: 1, borderWidth: 0,
-                    }} tabBarUnderlineStyle={{height: 3, bottom: 0}}>
-                        <Tab heading='BROWSER'>
-                            <VideoItemContainer component={this} naviagtion={this.props.navigation}
-                                                type={this.state.term ? 'search' : 'latest'}/>
+                        <Tabs style={{
+                            paddingTop: 0,
+                            backgroundColor: '#E3E3E3',
+                            elevation: 0, shadowOffset: {height: 0, width: 0},
+                            shadowOpacity: 0, flex: 1, borderWidth: 0,
+                        }} tabBarUnderlineStyle={{height: 3, bottom: 0}}>
+                            <Tab heading='BROWSER'>
+                                <VideoItemContainer component={this} naviagtion={this.props.navigation}
+                                                    type={this.state.term ? 'search' : 'latest'}/>
+                            </Tab>
+                            <Tab heading='TOP VIDEO'>
+                                <VideoItemContainer component={this} naviagtion={this.props.navigation}
+                                                    type={this.state.term ? 'search' : 'latest'}/>
+                            </Tab>
+                        </Tabs>
+                    ) :
+                    (
+                        <Tab style={{
+                            paddingTop: 0,
+                            backgroundColor: '#141821',
+                            element: 0,
+                            shadowOffset: {height: 0, width: 0},
+                            shadowOpacity: 0, flex: 1, borderWidth: 0,
+                        }} tabBarUnderLine={{height: 3, bottom: 0}}>
+                            <Tab heading='SEARCH RESULTS'>
+                                <VideoItemContainer key={this.state.term} component={this}
+                                                    naviagtion={this.props.navigation}
+                                                    type={this.state.term ? 'search' : 'latest'}
+                                                    typeId={this.state.term}/>
+                            </Tab>
                         </Tab>
-                        <Tab heading='TOP VIDEO'>
-                        </Tab>
-                    </Tabs>
-
-                ) : (
-                    <Tab style={{
-                        paddingTop: 0,
-                        backgroundColor: '#141821',
-                        element: 0,
-                        shadowOffset: {height: 0, width: 0},
-                        shadowOpacity: 0, flex: 1, borderWidth: 0,
-                    }} tabBarUnderLine={{height: 3, bottom: 0}}>
-                        <Tab heading='BROWSER'>
-
-                        </Tab>
-                        <Tab heading='TOP VIDEO'>
-                            <VideoItemContainer component={this} naviagtion={this.props.navigation}
-                                                type={this.state.term ? 'search' : 'latest'}
-                            />
-                        </Tab>
-                    </Tab>
-                )}
+                    )}
             </Container>,
         );
     }

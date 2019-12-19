@@ -9,9 +9,16 @@ import {
 import {Container, Icon, Text, Content, Card, CardItem, Thumbnail, Body, Left, Right, Button} from 'native-base';
 import {WebView} from 'react-native-webview';
 import {BackHandler} from 'react-native';
+
 const {width, height} = Dimensions.get('screen');
 import BaseScreen from '../utils/BaseScreen';
+import Video from 'react-native-video';
+
 const styles = StyleSheet.create({
+    mediaPlayer: {
+        width: width,
+        height: height,
+    },
     flatList_items:
         {
             fontSize: 20,
@@ -143,7 +150,7 @@ class VideoComponent extends BaseScreen {
     constructor(props) {
         super(props);
         this.activeMenu = 'Home';
-        this.props.onFetchVideos();
+        // this.props.onFetchVideos(1,10);
         // console.log(this.props.videos);
         const pageVideo = this.props.videos.slice(1, 10);
         this.state = {
@@ -227,34 +234,10 @@ class VideoComponent extends BaseScreen {
             listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
             page_number: this.state.page_number + 1,
         });
-        BackHandler.addEventListener(
-            'hardwareBackPress',
-            this.handleBackButtonPressAndroid,
-        );
-        // console.log(this.state.listVideo);
     }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackButtonPressAndroid,
-        );
-    }
-
-    handleBackButtonPressAndroid = () => {
-        Alert.alert(
-            'Exit App',
-            'Do you want to exit?',
-            [
-                {text: 'No', onPress: () => this.props.navigation.navigate('Home')},
-                {text: 'Yes', onPress: () => BackHandler.exitApp()},
-            ],
-            {cancelable: false});
-        return true;
-    };
 
     render() {
-        // console.log(this.state.videos);
         return this.show(
             <View style={{flex: 1}}>
                 <WebView

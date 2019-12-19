@@ -23,6 +23,8 @@ class videoItem extends BaseScreen {
     limit = 10;
     type = '';
     typeId = '';
+    page = 1;
+    fetchFinished: true;
 
     constructor(props) {
         super(props);
@@ -37,56 +39,59 @@ class videoItem extends BaseScreen {
     }
 
     loadLists(paginate) {
-        if (!paginate) {
-            this.updateState({fetchFinished: false});
-            this.props.onFetchVideos();
-            this.updateState({fetchFinished: true});
-            // console.log('paginate');
+        if (this.state.fetchFinished === true) {
+            if (paginate) {
+                this.page++;
+            }
         }
+        // console.log(this.props.videos.length / 10 + 1);
+        this.props.onFetchVideos(this.page, this.limit);
+        this.updateState({fetchFinished: true, videos: this.props.videos});
     }
 
     render() {
-        // console.log(this.props.videos);
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <FlatGrid
+                <GridView
                     keyExtractor={(item, index) => item.id}
                     items={this.props.videos}
                     extraData={this.state}
                     itemDimension={130}
                     spacing={15}
-                    renderItem={({item, index}) => (this.displayItem(item, item, true))}
-                    onEndReachedThreshhold={0.5}
-                    onReReached={(d) => {
-                        if (this.props.videos.length > 0) {
-                            this.loadLists(false);
-                        }
+                    style={{backgroundColor: '#fff'}}
+                    onEndReachedThreshold={.5}
+                    onEndReached={(d) => {
+                        this.loadLists(true);
                         return true;
                     }}
                     fixed={false}
-                    ListFooteComponent={
-                        <View style={{paddingVertical: 20, backgroundColor: '#fff'}}>
+                    ListFooterComponent={
+                        <View style={{paddingVertical: 20}}>
                             {this.state.fetchFinished ? (<Text/>) : (
-                                <View
-                                    style={{
-                                        justifyContent: 'center',
-                                        alignContent: 'center',
-                                        width: '100%',
-                                        alignItems: 'center',
-                                    }}>
-                                    <ActivityIndicator size='large' style={{alignSelf: 'center'}}/>
+                                <View style={{
+                                    justifyContent: 'center',
+                                    alignContent: 'center',
+                                    width: '100%',
+                                    alignItems: 'center',
+                                }}>
+                                    <ActivityIndicator style={{alignSelf: 'center'}} size='large'/>
                                 </View>
                             )}
                         </View>
                     }
-                    ListEmptyComponent={!this.state.fetchFinished ? (<Text/>) : (
-                        <EmptyComponent text='No video found'/>)}
+                    ListEmptyComponent={!this.state.fetchFinished ? (
+                        <Text/>
+                    ) : (
+                        <EmptyComponent text='no_videos_found'/>
+                    )}
+                    renderItem={(item, index) => this.displayItem(item.item, index, true)}
                 />
             </View>
         );
     }
 
     displayItem(item, index) {
+        // console.log(item);
         if (item === false) {
             return null;
         }
@@ -145,8 +150,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchVideos: () => {
-            dispatch(fetchVideosAction());
+        onFetchVideos: (page, limit) => {
+            dispatch(fetchVideosAction(page, limit));
         },
         onAddVideo: (newVideo) => {
             dispatch(addVideosAction(newVideo));
@@ -166,4 +171,3 @@ const mapDispatchToProps = (dispatch) => {
 
 const VideoItemContainer = connect(mapStateToProps, mapDispatchToProps)(videoItem);
 export default VideoItemContainer;
-

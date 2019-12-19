@@ -36,9 +36,13 @@ target 'youtuber' do
 
 
 
-  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
-  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   target 'youtuberTests' do
     inherit! :search_paths

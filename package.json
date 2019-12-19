@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "jetify": "npx jetify"
   },
   "dependencies": {
     "native-base": "^2.13.8",
@@ -15,10 +16,13 @@
     "react-native": "0.61.5",
     "react-native-fast-image": "^5.0.10",
     "react-native-gesture-handler": "^1.5.1",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-modal": "^11.5.3",
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "1.0.0-alpha.23",
     "react-native-super-grid": "^3.1.1",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^5.0.2",
     "react-native-view-overflow": "0.0.4",
     "react-native-webview": "^7.5.1",
     "react-native-youtube": "^2.0.0",
@@ -38,7 +42,7 @@
     "babel-jest": "^24.9.0",
     "eslint": "^6.7.1",
     "jest": "^24.9.0",
-    "jetifier": "^1.6.4",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.57.0",
     "react-test-renderer": "16.9.0",
     "redux-devtools": "^3.5.0"

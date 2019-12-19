@@ -8,12 +8,12 @@ import {
     DELETE_VIDEO,
     DELETE_SUCCEEDED,
 } from '../actions/actionTypes';
-import {put, takeLatest} from 'redux-saga/effects';
+import {put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {Api} from './api';
 
-function* fetchVideos() {
+function* fetchVideos(action) {
     try {
-        const receivedVideos = yield Api.getVideosFromApi();
+        const receivedVideos = yield Api.getVideosFromApi(action);
         yield put({
             type: FETCH_SUCCEEDED, receivedVideos: receivedVideos,
         });
@@ -23,7 +23,7 @@ function* fetchVideos() {
 }
 
 export function* watchFetchVideos() {
-    yield takeLatest(FETCH_VIDEO, fetchVideos);
+    yield takeEvery(FETCH_VIDEO, fetchVideos);
 }
 
 function* addNewVideo(action) {

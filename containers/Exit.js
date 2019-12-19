@@ -16,23 +16,6 @@ export default class Exit extends BaseScreen {
         this.activeMenu = 'Exit';
     }
 
-    componentWillMount() {
-        // BackHandler.addEventListener('hardwareBackPress', this.backPressed);
-        this.props.navigation.addListener('didFocus', () => this.backPressed());
-    }
-
-    backPressed = () => {
-        Alert.alert(
-            'Exit App',
-            'Do you want to exit?',
-            [
-                {text: 'No', onPress: () => this.props.navigation.navigate('Home')},
-                {text: 'Yes', onPress: () => BackHandler.exitApp()},
-            ],
-            {cancelable: false});
-        return true;
-    };
-
     render() {
         // this.backPressed();
         return this.show(

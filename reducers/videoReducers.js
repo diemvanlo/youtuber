@@ -11,7 +11,9 @@ const videoReducers = (videos = [], action) => {
     switch (action.type) {
         case FETCH_SUCCEEDED:
             // console.log(`videos in reducers:   ${action.receivedVideos}`);
-            return action.receivedVideos;
+            videos =  videos.concat(action.receivedVideos);
+            // console.log(videos);
+            return videos;
         case FETCH_FAILED:
             return [];
         // case ADD_VIDEO:

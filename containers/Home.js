@@ -9,35 +9,8 @@ import {
     updateItemSuccessAction,
     deleteItemAction
 } from '../actions';
+import {mapStateToProps, mapDispatchToProps} from '../containers/BaseContainer';
 import React, {Component} from 'react';
-
-const mapStateToProps = (state) => {
-    return {
-        videos: state.videoReducers
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onFetchVideos: () => {
-            dispatch(fetchVideosAction());
-        },
-        onAddVideo: (newVideo) => {
-            dispatch(addVideosAction(newVideo));
-        },
-        onUpdateItemAction: (updatedVideo) => {
-            dispatch(updateItemAction(updatedVideo));
-        },
-        onUpdateItemSuccessAction: (updatedVideo) => {
-            dispatch(updateItemSuccessAction(updatedVideo));
-        },
-        onUpDeleteItemAction: (deleteVideoID) => {
-            console.log(deleteVideoID);
-            dispatch(deleteItemAction(deleteVideoID));
-        }
-    };
-};
-
 
 const home = connect(mapStateToProps, mapDispatchToProps)(videoComponent);
 export default home;

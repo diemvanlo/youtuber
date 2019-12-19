@@ -8,6 +8,7 @@ buildscript {
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 28
+        glideVersion = "4.8.0"  // Add this
     }
     repositories {
         google()
