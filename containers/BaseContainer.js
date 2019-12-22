@@ -7,20 +7,21 @@ import {
     updateItemAction,
     updateItemSuccessAction,
     deleteItemAction,
+    fetchCommentsAction
 } from '../actions';
 import React, {Component} from 'react';
 
 export const mapStateToProps = (state) => {
-    // console.log(state.videoReducers);
     return {
         videos: state.videoReducers,
+        comments: state.commentReducers
     };
 };
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchVideos: (page, limit) => {
-            dispatch(fetchVideosAction(page, limit));
+        onFetchVideos: (page, limit, searchString) => {
+            dispatch(fetchVideosAction(page, limit, searchString));
         },
         onAddVideo: (newVideo) => {
             dispatch(addVideosAction(newVideo));
@@ -32,8 +33,10 @@ export const mapDispatchToProps = (dispatch) => {
             dispatch(updateItemSuccessAction(updatedVideo));
         },
         onUpDeleteItemAction: (deleteVideoID) => {
-            console.log(deleteVideoID);
             dispatch(deleteItemAction(deleteVideoID));
+        },
+        onFetchComments: (idVideo) => {
+            dispatch(fetchCommentsAction(idVideo));
         },
     };
 };

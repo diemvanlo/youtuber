@@ -11,6 +11,13 @@ import {connect, Provider} from 'react-redux';
 import {mapStateToProps, mapDispatchToProps} from '../containers/BaseContainer';
 import Modal from 'react-native-modal';
 import CommentComponent from './CommentComponent';
+import {
+    addVideosAction,
+    deleteItemAction,
+    fetchVideosAction,
+    updateItemAction,
+    updateItemSuccessAction,
+} from '../actions';
 
 class VideoPlayer extends BaseScreen {
 
@@ -24,6 +31,7 @@ class VideoPlayer extends BaseScreen {
         super(props);
         this.activeMenu = 'Library';
         this.video = this.props.navigation.getParam('video');
+        this.props.onFetchVideos(1, 10);
         this.state = {
             ...this.state,
             loading: true,
@@ -66,7 +74,7 @@ class VideoPlayer extends BaseScreen {
                         <WebView onLoadEnd={() => {
                             this.updateState({loading: false});
                         }}
-                                 source={{uri: 'https://r6---sn-a5mlrn7z.googlevideo.com/videoplayback?expire=1576652263&ei=h3n5XeuwCsOOV_7Gk8AF&ip=185.27.134.50&id=o-AG_1P37j7Tu_sHplsp6fybPXoPJDWdlJ24GiU-GKxSPe&itag=22&source=youtube&requiressl=yes&mime=video%2Fmp4&ratebypass=yes&dur=774.640&lmt=1576594075324779&fvip=5&fexp=23842630&c=WEB&txp=5432432&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cmime%2Cratebypass%2Cdur%2Clmt&sig=ALgxI2wwRQIgExYdBY76mn6uMg310VLhtXVryV5x-tU7L6gi6CaHNngCIQC4zUIuxrgvVwPl5wnAnV-navJIWY7nGmi5YOEzq3E-uA%3D%3D&redirect_counter=1&cm2rm=sn-aigesz76&req_id=8325dac96d55a3ee&cms_redirect=yes&mip=116.110.54.205&mm=34&mn=sn-a5mlrn7z&ms=ltu&mt=1576630058&mv=u&mvi=5&pl=12&lsparams=mip,mm,mn,ms,mv,mvi,pl&lsig=AHylml4wRAIgEoqdbvbSwbGsB9VWoAVq8le7Ll-UffRp_MWcbyUFdUQCIB_iWLeKxZbN3CEwNKTCm1I35Jw7pLPFAaCc2QoiOJIj'}}
+                                 source={{uri: this.state.item.url}}
                                  style={{width: '100%', height: 300, backgroundColor: '#000'}}
                         />
                         {this.state.loading && (

@@ -7,6 +7,8 @@ import {
     UPDATE_VIDEO,
     DELETE_VIDEO,
     DELETE_SUCCEEDED,
+    FETCH_COMMENT,
+    FETCH_COMMENT_SUCCEEDED,
 } from '../actions/actionTypes';
 import {put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {Api} from './api';
@@ -26,6 +28,22 @@ function* fetchVideos(action) {
 
 export function* watchFetchVideos() {
     yield takeEvery(FETCH_VIDEO, fetchVideos);
+}
+
+function* fetchComments(action) {
+    console.log(action);
+    try {
+        const receivedComments = yield Api.getCommentsFromApi(action);
+        yield put({
+            type: FETCH_COMMENT_SUCCEEDED, receivedComments: receivedComments,
+        });
+    } catch (error) {
+        yield put({type: FETCH_FAILED, error});
+    }
+}
+
+export function* watchFetchComments() {
+    yield takeLatest(FETCH_COMMENT, fetchComments);
 }
 
 function* addNewVideo(action) {

@@ -60,20 +60,19 @@ export default class Library extends BaseScreen {
                         </Tabs>
                     ) :
                     (
-                        <Tab style={{
+                        <Tabs style={{
                             paddingTop: 0,
-                            backgroundColor: '#141821',
-                            element: 0,
-                            shadowOffset: {height: 0, width: 0},
+                            backgroundColor: '#E3E3E3',
+                            elevation: 0, shadowOffset: {height: 0, width: 0},
                             shadowOpacity: 0, flex: 1, borderWidth: 0,
-                        }} tabBarUnderLine={{height: 3, bottom: 0}}>
-                            <Tab heading='SEARCH RESULTS'>
+                        }} tabBarUnderlineStyle={{height: 3, bottom: 0}}>
+                            <Tab heading={'Key word "' + this.state.term + '"'}>
                                 <VideoItemContainer key={this.state.term} component={this}
                                                     naviagtion={this.props.navigation}
                                                     type={this.state.term ? 'search' : 'latest'}
                                                     typeId={this.state.term}/>
                             </Tab>
-                        </Tab>
+                        </Tabs>
                     )}
             </Container>,
         );

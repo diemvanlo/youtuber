@@ -11,17 +11,19 @@ class CommentComponent extends BaseScreen {
 
     constructor(props) {
         super(props);
+        this.type = this.props.type;
+        this.item = this.props.track;
+        this.props.onFetchComments(this.item.id);
         this.state = {
             ...this.state,
             loading: true,
             commentText: '',
+            comments: this.props.comments
         };
-        this.type = this.props.type;
-        console.log(this.props.track);
-        this.item = this.props.track;
         this.component = this.props.component;
+        console.log("this.props.comments");
+        console.log(this.state.comments);
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-
     }
 
     componentWillMount() {
@@ -66,7 +68,7 @@ class CommentComponent extends BaseScreen {
                             onEndReached={() => {
                                 this.loadComments(true);
                             }}
-                            data={[]}
+                            data={this.props.comments}
                             keyExtractor={(item, index) => item.id}
                             ListFooterComponent={
                                 <View style={{paddingVertical: 20}}>{
@@ -105,7 +107,6 @@ class CommentComponent extends BaseScreen {
             </Container>,
         );
     }
-
 
     loadComments(paginate) {
         this.updateState({fetchFinished: false});

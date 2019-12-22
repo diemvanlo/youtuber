@@ -1,6 +1,6 @@
-import { all, call } from 'redux-saga/effects';
-import { watchFetchVideos } from './videoSagas';
-import { watchAddNewVideo, watchUpdateVideo, watchDeleteVideo } from './videoSagas';
+import {all, call} from 'redux-saga/effects';
+import {watchFetchVideos} from './videoSagas';
+import {watchAddNewVideo, watchUpdateVideo, watchDeleteVideo, watchFetchComments} from './videoSagas';
 
 export default function* rootSaga() {
     yield all([
@@ -8,5 +8,6 @@ export default function* rootSaga() {
         watchUpdateVideo(),
         watchFetchVideos(),
         watchDeleteVideo(),
+        watchFetchComments(),
     ]);
 }

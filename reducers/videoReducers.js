@@ -5,6 +5,8 @@ import {
     FETCH_FAILED,
     UPDATE_VIDEO,
     UPDATE_SUCCEEDED,
+    FETCH_COMMENT,
+    FETCH_COMMENT_SUCCEEDED,
 } from '../actions/actionTypes';
 
 const videoReducers = (videos = [], action) => {

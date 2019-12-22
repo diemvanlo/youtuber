@@ -7,6 +7,8 @@ import {
     UPDATE_SUCCEEDED,
     DELETE_VIDEO,
     DELETE_SUCCEEDED,
+    FETCH_COMMENT,
+    FETCH_COMMENT_SUCCEEDED
 } from './actionTypes';
 
 export const fetchVideosAction = (page, limit, searchString) => {
@@ -52,5 +54,20 @@ export const deleteItemAction = (deleteVideoID) => {
     return {
         type: DELETE_VIDEO,
         deleteVideoID,
+    };
+};
+
+export const fetchCommentsAction = (idVideo) => {
+    return {
+        type: FETCH_COMMENT,
+        idVideo,
+    };
+};
+
+export const fetchCommentsSucceededAction = (receivedComments) => {
+    // console.log(receivedVideos);
+    return {
+        type: FETCH_COMMENT_SUCCEEDED,
+        receivedComments,
     };
 };

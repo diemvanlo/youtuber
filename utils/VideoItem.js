@@ -58,7 +58,7 @@ class videoItem extends BaseScreen {
                     keyExtractor={(item, index) => item.id}
                     items={this.props.videos}
                     extraData={this.state}
-                    itemDimension={130}
+                    itemDimension={260}
                     spacing={15}
                     style={{backgroundColor: '#fff'}}
                     onEndReachedThreshold={1.5}
@@ -103,10 +103,12 @@ class videoItem extends BaseScreen {
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
                 <TouchableOpacity onPress={() => {
+                    this.props.onFetchVideos(1, 10);
+                    // console.log(this.props.videos);
                     this.component.openVideo(item);
                 }}>
                     <FastImage style={{
-                        width: '100%', height: 150, marginBottom: 10, borderColor: '#D1D1D1', borderWidth: 1,
+                        width: '100%', height: 200, marginBottom: 10, borderColor: '#D1D1D1', borderWidth: 1,
                     }}
                                source={{uri: item.thumb}}
                                resizeMode={FastImage.resizeMode.cover}
@@ -150,6 +152,7 @@ class videoItem extends BaseScreen {
 const mapStateToProps = (state) => {
     return {
         videos: state.videoReducers,
+        comments: state.videoReducers,
     };
 };
 

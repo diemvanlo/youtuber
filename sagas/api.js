@@ -3,6 +3,7 @@ const getVideosUrl = 'http://5de9b255cb3e3800141b9367.mockapi.io/video?page=';
 const postVideosUrl = 'http://192.168.1.10:8080/video/save';
 const updateVideosUrl = 'http://192.168.1.10:8080/video/update';
 const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete';
+const getCommentsUrl = 'http://5de9b255cb3e3800141b9367.mockapi.io/video/';
 
 function* getVideosFromApi(action) {
     // console.log(action);
@@ -28,6 +29,28 @@ function* getVideosFromApi(action) {
         });
     const videos = yield (json);
     return videos;
+}
+function* getCommentsFromApi(action) {
+    // console.log(action);
+
+    let getCommentsUrll = `${getCommentsUrl}${action.idVideo}/comment`;
+    console.log(getCommentsUrll);
+    const json = yield fetch(getCommentsUrll, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: '',
+    }).then(response => response.json()).then((responseJson) => {
+        // console.log(responseJson);
+        return responseJson;
+    })
+        .catch((error) => {
+            console.error(error);
+        });
+    const comments = yield (json);
+    return comments;
 }
 
 function* postVideosFromApi(newVideo) {
@@ -91,4 +114,5 @@ export const Api = {
     postVideosFromApi,
     updateVideoFromApi,
     deleteVideoFromApi,
+    getCommentsFromApi
 };

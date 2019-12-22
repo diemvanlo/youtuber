@@ -13,6 +13,8 @@ import {BackHandler} from 'react-native';
 const {width, height} = Dimensions.get('screen');
 import BaseScreen from '../utils/BaseScreen';
 import Video from 'react-native-video';
+import ytdl from 'react-native-ytdl';
+
 
 const styles = StyleSheet.create({
     mediaPlayer: {
@@ -150,12 +152,22 @@ class VideoComponent extends BaseScreen {
     constructor(props) {
         super(props);
         this.activeMenu = 'Home';
+        let videoID = '04GiqLjRO3A';
+        ytdl.getInfo(videoID, {}, (err, info) => {
+            if (err) {
+                console.log(err);
+            }
+            let format = ytdl.chooseFormat(info.formats, {quality: '144'});
+            if (format) {
+                console.log(format);
+            }
+        });
         // console.log(this.props.videos);
-        const pageVideo = this.props.videos.slice(1, 10);
+        // const pageVideo = this.props.videos.slice(1, 10);
         this.state = {
             isLoading: true,
-            videos: this.props.videos.reverse(),
-            pageVideo: pageVideo,
+            // videos: this.props.videos.reverse(),
+            // pageVideo: pageVideo,
             page_size: 3,
             page_number: 1,
             listVideo: [],
@@ -176,7 +188,7 @@ class VideoComponent extends BaseScreen {
                 </View>
                 <View>
                     <Image style={styles.avatar}
-                           source={{uri: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg'}}
+                           source={{html: 'https://tinyfac.es/data/avatars/475605E3-69C5-4D2B-8727-61B7BB8C4699-500w.jpeg'}}
                     />
                 </View>
             </View>
@@ -213,7 +225,7 @@ class VideoComponent extends BaseScreen {
 
     paginate = (array, page_size, page_number) => {
         --page_number; // because pages logically start with 1, but technically with 0
-        return array.slice(page_number * page_size, (page_number + 1) * page_size);
+        // return array.slice(page_number * page_size, (page_number + 1) * page_size);
     };
 
     handleLoadMore = () => {
@@ -226,14 +238,14 @@ class VideoComponent extends BaseScreen {
         // console.log(this.state.listVideo);
     };
 
-    componentDidMount() {
-        // console.log('componentDidMount: ' + this.state.page_number);
-        this.setState({
-            isLoading: false,
-            listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
-            page_number: this.state.page_number + 1,
-        });
-    }
+    // componentDidMount() {
+    //     // console.log('componentDidMount: ' + this.state.page_number);
+    //     this.setState({
+    //         isLoading: false,
+    //         // listVideo: [...this.state.listVideo, ...this.paginate(this.state.videos, this.state.page_size, this.state.page_number)],
+    //         page_number: this.state.page_number + 1,
+    //     });
+    // }
 
 
     render() {
