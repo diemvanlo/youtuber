@@ -47,6 +47,8 @@ class videoItem extends BaseScreen {
         }
         this.props.onFetchVideos(this.page, this.limit, this.props.typeId);
         this.itemListNotEnd = (this.props.videos.length < 1);
+        // console.log(this.props.videos);
+        // console.log("this.props.videos");
         this.updateState({fetchFinished: true, videos: this.props.videos});
     }
 

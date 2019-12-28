@@ -29,19 +29,19 @@ export default class Library extends BaseScreen {
     render() {
         return this.show(
             <Container style={{flex: 1, backgroundColor: '#141821'}}>
-                <Header searchBar rounded hasTabs
-                        style={{paddingBottom: 0, backgroundColor: '#141821', height: 65}}>
-                    <Item>
-                        <Icon style={{color: '#E3E3E3'}} name='ios-search'/>
-                        <Input style={{color: '#000'}} value={this.state.term} placeholder={'Search...'}
-                               onChangeText={(t) => {
-                                   // console.log(t);
-                                   this.updateState({term: t});
-                                   this.forceUpdateHandler();
-                               }}/>
-                        <Icon name='music-tone' type="SimpleLineIcons" style={{color: '#303A4F'}}/>
-                    </Item>
-                </Header>
+                {/*<Header searchBar rounded hasTabs*/}
+                {/*        style={{paddingBottom: 0, backgroundColor: '#141821', height: 65}}>*/}
+                {/*    <Item>*/}
+                {/*        <Icon style={{color: '#E3E3E3'}} name='ios-search'/>*/}
+                {/*        <Input style={{color: '#000'}} value={this.state.term} placeholder={'Search...'}*/}
+                {/*               onChangeText={(t) => {*/}
+                {/*                   // console.log(t);*/}
+                {/*                   this.updateState({term: t});*/}
+                {/*                   this.forceUpdateHandler();*/}
+                {/*               }}/>*/}
+                {/*        <Icon name='music-tone' type="SimpleLineIcons" style={{color: '#303A4F'}}/>*/}
+                {/*    </Item>*/}
+                {/*</Header>*/}
                 {this.state.term === '' ? (
                         <Tabs style={{
                             paddingTop: 0,

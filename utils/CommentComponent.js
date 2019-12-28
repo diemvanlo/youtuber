@@ -13,16 +13,14 @@ class CommentComponent extends BaseScreen {
         super(props);
         this.type = this.props.type;
         this.item = this.props.track;
-        this.props.onFetchComments(this.item.id);
         this.state = {
             ...this.state,
             loading: true,
             commentText: '',
-            comments: this.props.comments
+            comments: [],
         };
         this.component = this.props.component;
-        console.log("this.props.comments");
-        console.log(this.state.comments);
+
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
@@ -65,11 +63,18 @@ class CommentComponent extends BaseScreen {
                         <FlatList
                             style={{flex: 1}}
                             onEndReachedThreshold={0.5}
-                            onEndReached={() => {
-                                this.loadComments(true);
+                            onEndReached={(d) => {
+                                console.log('end of line');
+                                this.loadComments();
                             }}
-                            data={this.props.comments}
+                            data={this.state.comments}
+                            extraData={this.state}
                             keyExtractor={(item, index) => item.id}
+                            refreshing={this.state.loading}
+                            onRefresh={() => {
+                                this.handleCommentsRefresh();
+
+                            }}
                             ListFooterComponent={
                                 <View style={{paddingVertical: 20}}>{
                                     (!this.state.fetchFinished) ? (
@@ -77,6 +82,9 @@ class CommentComponent extends BaseScreen {
                                     ) : null
                                 }</View>
                             }
+                            renderItem={({item, index}) => {
+                                this.displayComment(item, index, false);
+                            }}
                         />
                     </View>
                     <View style={{
@@ -108,8 +116,24 @@ class CommentComponent extends BaseScreen {
         );
     }
 
-    loadComments(paginate) {
-        this.updateState({fetchFinished: false});
+    loadComments() {
+        this.props.onFetchComments(this.item.id);
+        this.updateState({loading: false, comments: this.props.comments});
+        // console.log("this.props.comments");
+        console.log(this.props.comments);
+    }
+
+    handleCommentsRefresh() {
+        this.loadComments();
+    }
+
+    displayComment(item, index, reply) {
+        console.log(item);
+        return (
+            <View style={{flex: 1, backgroundColor: '#fff'}}>
+                <FastImage/>
+            </View>
+        );
     }
 }
 
