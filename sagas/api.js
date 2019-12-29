@@ -1,9 +1,11 @@
 // const getVideosUrl = 'http://164.132.226.137:9999/youtuber/feeds/searchByCommunityName?name=f&page=47';
+// const getVideosUrl = 'https://testapi.io/api/diemvanlo/videos?token=54e893583757b543b2cc46b6388e8ce15030433d';
 const getVideosUrl = 'http://5de9b255cb3e3800141b9367.mockapi.io/video?page=';
 const postVideosUrl = 'http://192.168.1.10:8080/video/save';
 const updateVideosUrl = 'http://192.168.1.10:8080/video/update';
 const deleteVideoUrl = 'http://192.168.1.10:8080/video/delete';
 const getCommentsUrl = 'http://5de9b255cb3e3800141b9367.mockapi.io/video/';
+// const getCommentsUrl = 'https://testapi.io/api/diemvanlo/comments?token=54e893583757b543b2cc46b6388e8ce15030433d';
 
 function* getVideosFromApi(action) {
     // console.log(action);
@@ -30,9 +32,8 @@ function* getVideosFromApi(action) {
     const videos = yield (json);
     return videos;
 }
-function* getCommentsFromApi(action) {
-    // console.log(action);
 
+function* getCommentsFromApi(action) {
     let getCommentsUrll = `${getCommentsUrl}${action.idVideo}/comment`;
     console.log(getCommentsUrll);
     const json = yield fetch(getCommentsUrll, {
@@ -114,5 +115,5 @@ export const Api = {
     postVideosFromApi,
     updateVideoFromApi,
     deleteVideoFromApi,
-    getCommentsFromApi
+    getCommentsFromApi,
 };

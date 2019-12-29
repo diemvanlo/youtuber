@@ -134,7 +134,8 @@ class videoItem extends BaseScreen {
                         fontSize: 15,
                         color: '#141821',
                         fontWeight: '500',
-                    }}>{item.title}</Text>
+                    }}>{item.title}
+                    </Text>
                 </TouchableOpacity>
                 {(item.name !== undefined) ? (
                     <Text numberOfLin es={1} note style={{

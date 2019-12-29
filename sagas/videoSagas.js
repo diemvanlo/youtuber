@@ -31,7 +31,6 @@ export function* watchFetchVideos() {
 }
 
 function* fetchComments(action) {
-    console.log(action);
     try {
         const receivedComments = yield Api.getCommentsFromApi(action);
         yield put({

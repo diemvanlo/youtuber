@@ -15,7 +15,7 @@ const commentReducers = (comments = [], action) => {
             return [];
         case FETCH_COMMENT_SUCCEEDED:
             comments = action.receivedComments;
-            console.log(comments);
+            // console.log(comments);
             return comments;
         default:
             return comments;

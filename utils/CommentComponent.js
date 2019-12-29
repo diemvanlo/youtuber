@@ -20,7 +20,7 @@ class CommentComponent extends BaseScreen {
             comments: [],
         };
         this.component = this.props.component;
-
+        this.loadComments();
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
@@ -33,9 +33,39 @@ class CommentComponent extends BaseScreen {
     }
 
     handleBackButtonClick = () => {
+        console.log('back');
         this.component.updateState({commentModalVisible: false});
         return true;
     };
+
+
+    loadComments() {
+        this.props.onFetchComments(this.item.id);
+        this.updateState({loading: false, comments: this.props.comments});
+        // console.log("this.props.comments");
+        console.log(this.props.comments);
+    }
+
+    handleCommentsRefresh() {
+        this.loadComments();
+    }
+
+    displayComment(item, index) {
+        console.log(item.content);
+        return (
+            <View style={{
+                flex: 1, flexDirection: 'row', padding: 10,
+            }}>
+                <FastImage source={{uri: item.avatar}}
+                           style={{width: 40, height: 40, borderRadius: 100, marginTop: 2}}/>
+                <View style={{flex: 1, flexDirection: 'column', marginLeft: 7}}>
+                    <Text style={{color: '#fff'}}><Text
+                        style={{fontWeight: 'bold', color: '#FFF', paddingLeft: 30}}>{item.name}</Text>     {item.content}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
 
     render() {
         return this.showContent(
@@ -59,32 +89,35 @@ class CommentComponent extends BaseScreen {
                             marginLeft: 10,
                         }}>Comments</Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View style={{
+                        flex: 1,
+                    }}>
                         <FlatList
-                            style={{flex: 1}}
+                            style={{
+                                flex: 1,
+                            }}
                             onEndReachedThreshold={0.5}
                             onEndReached={(d) => {
-                                console.log('end of line');
+                                console.log('end ');
                                 this.loadComments();
                             }}
-                            data={this.state.comments}
+                            ref='_flatList'
+                            data={this.props.comments}
                             extraData={this.state}
                             keyExtractor={(item, index) => item.id}
-                            refreshing={this.state.loading}
-                            onRefresh={() => {
-                                this.handleCommentsRefresh();
-
-                            }}
-                            ListFooterComponent={
-                                <View style={{paddingVertical: 20}}>{
-                                    (!this.state.fetchFinished) ? (
+                            // refreshing={this.state.loading}
+                            // onRefresh={() => {
+                            //     this.handleCommentsRefresh();
+                            // }}
+                            ListFooterComponent={this.state.loading ? (
+                                <View style={{paddingVertical: 20}}>
+                                    {(!this.state.fetchFinished) ? (
                                         <ActivityIndicator size='large'/>
-                                    ) : null
-                                }</View>
+                                    ) : null}
+
+                                </View>) : <Text/>
                             }
-                            renderItem={({item, index}) => {
-                                this.displayComment(item, index, false);
-                            }}
+                            renderItem={({item, index}) => (this.displayComment(item, index, false))}
                         />
                     </View>
                     <View style={{
@@ -113,26 +146,6 @@ class CommentComponent extends BaseScreen {
                     </View>
                 </View>
             </Container>,
-        );
-    }
-
-    loadComments() {
-        this.props.onFetchComments(this.item.id);
-        this.updateState({loading: false, comments: this.props.comments});
-        // console.log("this.props.comments");
-        console.log(this.props.comments);
-    }
-
-    handleCommentsRefresh() {
-        this.loadComments();
-    }
-
-    displayComment(item, index, reply) {
-        console.log(item);
-        return (
-            <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <FastImage/>
-            </View>
         );
     }
 }
